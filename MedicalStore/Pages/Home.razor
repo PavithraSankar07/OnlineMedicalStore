@@ -1,0 +1,29 @@
+@page "/home"
+@inject UserStateService UserState
+@inject NavigationManager Navigation
+
+<h3>Welcome, @UserState.CurrentUser?.Name!</h3>
+
+@if (UserState.CurrentUser == null)
+{
+    <p>You are not logged in. Please <a href="/">login</a>.</p>
+}
+else
+{
+    <p>Email: @UserState.CurrentUser.Email</p>
+    <p>Mobile: @UserState.CurrentUser.MobileNumber</p>
+    <p>Wallet Balance: @UserState.CurrentUser.WalletBalance</p>
+}
+
+@code {
+    protected override void OnInitialized()
+    {
+        if (UserState.CurrentUser == null)
+        {
+            Navigation.NavigateTo("/");
+        }
+    }
+}
+
+
+        
