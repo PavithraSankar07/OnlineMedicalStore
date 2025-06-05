@@ -7,12 +7,17 @@ namespace MedicalStore.Models
 {
     public class MedicineInfo
     {
-        
-   public string MedicineId { get; set; }
+        private static int s_medicineid = 1;
+        public string MedicineId { get; set; }
         public string MedicineName { get; set; }
-        public string MedicineCount { get; set; }
-        public string MedicinePrice { get; set; }
-        public string ExpiryDate { get; set; }
+        public int MedicineCount { get; set; }
+        public int MedicinePrice { get; set; }
+        public DateTime ExpiryDate { get; set; }
+
+        public MedicineInfo()
+        {
+            MedicineId = "MID"+s_medicineid++;
+        }
 
     }
 }

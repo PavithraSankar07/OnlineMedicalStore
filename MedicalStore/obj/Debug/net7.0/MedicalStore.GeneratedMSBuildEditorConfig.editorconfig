@@ -1,0 +1,79 @@
+is_global = true
+build_property.TargetFramework = net7.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = MedicalStore
+build_property.RootNamespace = MedicalStore
+build_property.ProjectDir = D:\OnlineMedicalStore\OnlineMedicalStore\MedicalStore\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 7.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = D:\OnlineMedicalStore\OnlineMedicalStore\MedicalStore
+build_property._RazorSourceGeneratorDebug = 
+
+[D:/OnlineMedicalStore/OnlineMedicalStore/MedicalStore/App.razor]
+build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/OnlineMedicalStore/OnlineMedicalStore/MedicalStore/Pages/Home.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSG9tZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/OnlineMedicalStore/OnlineMedicalStore/MedicalStore/Pages/OrderHistory.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcT3JkZXJIaXN0b3J5LnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/OnlineMedicalStore/OnlineMedicalStore/MedicalStore/Pages/WalletRecharge.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcV2FsbGV0UmVjaGFyZ2UucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/OnlineMedicalStore/OnlineMedicalStore/MedicalStore/Shared/DialogBox.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXERpYWxvZ0JveC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/OnlineMedicalStore/OnlineMedicalStore/MedicalStore/Shared/SurveyPrompt.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXFN1cnZleVByb21wdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/OnlineMedicalStore/OnlineMedicalStore/MedicalStore/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/OnlineMedicalStore/OnlineMedicalStore/MedicalStore/Pages/Auth.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQXV0aC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-zg1gatpa2c
+
+[D:/OnlineMedicalStore/OnlineMedicalStore/MedicalStore/Pages/MedicineDetails.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTWVkaWNpbmVEZXRhaWxzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = b-1f173vtlep
+
+[D:/OnlineMedicalStore/OnlineMedicalStore/MedicalStore/Pages/Purchase.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHVyY2hhc2UucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-zpboq712g1
+
+[D:/OnlineMedicalStore/OnlineMedicalStore/MedicalStore/Shared/MainLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE1haW5MYXlvdXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-vsfnhpu00r
+
+[D:/OnlineMedicalStore/OnlineMedicalStore/MedicalStore/Shared/MedicalModal.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE1lZGljYWxNb2RhbC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-iyfe50hnns
+
+[D:/OnlineMedicalStore/OnlineMedicalStore/MedicalStore/Shared/NavMenu.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE5hdk1lbnUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-8ldwis814y
+
+[D:/OnlineMedicalStore/OnlineMedicalStore/MedicalStore/Pages/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/OnlineMedicalStore/OnlineMedicalStore/MedicalStore/Pages/_Host.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX0hvc3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 

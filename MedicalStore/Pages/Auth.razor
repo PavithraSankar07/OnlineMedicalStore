@@ -3,17 +3,15 @@
 @inject UserStateService UserState
 @inject NavigationManager Navigation
 
-<div class="toggle-buttons">
-    <button @onclick="ShowLogin" disabled="@showLogin">Login</button>
-    <button @onclick="ShowSignup" disabled="@(!showLogin)">Sign Up</button>
+<div class="whole-div">
+    <button @onclick="ShowLogin" >Login</button>
+    <button @onclick="ShowSignup" >Sign Up</button>
 </div>
 
 @if (showLogin)
 {
     <EditForm Model="@userInfo" OnValidSubmit="Login">
-        <DataAnnotationsValidator />
-        <ValidationSummary />
-        <div class="login-form" id="auth-form">
+        <div class="login" id="full-form">
             <h2>Login</h2>
             <InputText @bind-Value="userInfo.Email" placeholder="Email" />
             <InputText @bind-Value="userInfo.Password" type="password" placeholder="Password" />
@@ -24,10 +22,7 @@
 else
 {
     <EditForm Model="@userInfo" OnValidSubmit="Signup">
-        <DataAnnotationsValidator />
-        <ValidationSummary />
-
-        <div class="signup-form" id="auth-form">
+        <div class="signup" id="full-form">
             <h2>Sign Up</h2>
             <InputText @bind-Value="userInfo.Name" placeholder="Name" />
             <InputText @bind-Value="userInfo.Email" placeholder="Email" />
@@ -37,60 +32,90 @@ else
         </div>
     </EditForm>
 }
+@* @if(!string.IsNullOrEmpty(message))
+{
+    <p>@message</p>
+} *@
 
-<p>@loginMessage</p>
-
+<DialogBox Message="@dialogBoxMessage" IsVisible="@showBox" OnClose="@Close"/>
 @code {
-    public UserInfo userInfo = new();
-    public string loginMessage;
-    private bool showLogin = false;
-
-    @* private List<UserInfo> users = DefaultData.GetDefaultUsers(); *@
-
-    private void ShowLogin() => showLogin = true;
-    private void ShowSignup() => showLogin = false;
+    private UserInfo userInfo = new();
+    private bool showLogin = true;
     private bool isLoggedIn = false;
+    private static string message;
+private static string dialogBoxMessage;
+private bool showBox=false;
+private void ShowDialog(string message)
+    {
+        dialogBoxMessage = message;
+        showBox = true;
+        StateHasChanged();
+    }
+private void Close()
+{
+  showBox=false;
+  
+}
+ 
+    private void ShowLogin()
+    {
+        showLogin=true;
+    userInfo.Email = string.Empty;
+    userInfo.Password = string.Empty;
+   }
+    private void ShowSignup()
+    {
+        showLogin = false;
+        userInfo = new();
+    }
 
     private void Login()
     {
-        var existingUser = UserState.Users.FirstOrDefault(u =>
-        u.Email == userInfo.Email && u.Password == userInfo.Password);
+        var existingUser = UserState.Users.Find(u =>
+            u.Email == userInfo.Email && u.Password == userInfo.Password);
 
         if (existingUser != null)
         {
             UserState.CurrentUser = existingUser;
-            loginMessage = "Login Successful";
             isLoggedIn = true;
             Navigation.NavigateTo("/home");
         }
         else
         {
-            loginMessage = "Login Failed: Invalid credentials";
             isLoggedIn = false;
+            @* message="Invalid credentials"; *@
+            ShowDialog("Invalid credentials");
+         
         }
     }
+
     private void Signup()
     {
-        var existingUser = UserState.Users.FirstOrDefault(u => u.Email == userInfo.Email);
+        var existingUser = UserState.Users.Find(u => u.Email == userInfo.Email);
         if (existingUser != null)
         {
-            loginMessage = "Signup Failed: Email already exists";
+            @* message="Email already exists"; *@
+            ShowDialog("Email already exist");
+       
         }
         else
         {
             var newUser = new UserInfo
             {
-                UserID = (UserState.Users.Count + 1).ToString(),
+               
                 Name = userInfo.Name,
                 Email = userInfo.Email,
                 Password = userInfo.Password,
                 MobileNumber = userInfo.MobileNumber,
-                WalletBalance = "0"
+                WalletBalance = 0
             };
+
             UserState.Users.Add(newUser);
-            loginMessage = "Signup Successful. You can now log in.";
-            showLogin = true;
+            @* message="SignUp Successful"; *@
+            ShowDialog("Signup Successful");
+        
+              userInfo = new();
+            
         }
     }
-
 }

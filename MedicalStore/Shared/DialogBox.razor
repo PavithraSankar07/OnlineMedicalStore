@@ -1,0 +1,48 @@
+@if (IsVisible)
+{
+   
+        <div class="box">
+            <div class="top">
+                <h4>Notification</h4>
+                <button  @onclick="Close">X</button>
+            </div>
+            <div class="body">
+                <p>@Message</p>
+            </div>
+            <div class="end">
+                <button  @onclick="Close">OK</button>
+            </div>
+        </div>
+   
+}
+<style>
+    .box
+    {
+        background-color: aqua;
+        width: 400px;
+        height: auto;
+        margin-left: 35%;
+    }
+    .top
+    {
+        display: flex;
+        gap: 60%;
+    }
+</style>
+@code {
+    [Parameter] public string Message { get; set; }
+    [Parameter] public bool IsVisible { get; set; }
+    [Parameter] public EventCallback OnClose { get; set; }
+    [Parameter] public EventCallback OnCancel {get;set;}
+
+    private async Task Close()
+    {
+        await OnClose.InvokeAsync();
+    }
+     private async Task Cancel()
+     {
+        await OnCancel.InvokeAsync();
+     }
+
+
+}

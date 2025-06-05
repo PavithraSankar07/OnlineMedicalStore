@@ -1,2 +1,121 @@
-@page "/medicinedetails"
 
+
+@page "/medicinedetails"
+@using MedicalStore.Models
+@inject UserStateService UserState
+
+<h3>Medicine Details</h3>
+
+<button @onclick="ShowAddForm">Add Medicine</button>
+
+<table class="medicine-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Count</th>
+            <th>Price</th>
+            <th>Expiry</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var medicine in UserState.Medicines)
+        {
+            <tr>
+                <td>@medicine.MedicineId</td>
+                <td>@medicine.MedicineName</td>
+                <td>@medicine.MedicineCount</td>
+                <td>@medicine.MedicinePrice</td>
+                <td>@medicine.ExpiryDate.ToString("yyyy-MM-dd")</td>
+                <td>
+                    <button @onclick="() => EditMedicine(medicine)">Edit</button>
+                    <button @onclick="() => DeleteMedicine(medicine.MedicineId)">Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@* @if (showForm)
+{
+    <EditForm Model="@formModel" OnValidSubmit="@HandleSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="form-section">
+            <InputText @bind-Value="formModel.MedicineName" placeholder="Name" />
+            <InputNumber @bind-Value="formModel.MedicineCount" placeholder="Count" />
+            <InputNumber @bind-Value="formModel.MedicinePrice" placeholder="Price" />
+            <InputDate @bind-Value="formModel.ExpiryDate"  placeholder="Expiry (yyyy-MM-dd)" />
+            <button type="submit">@formMode</button>
+        </div>
+    </EditForm>
+} *@
+<MedicalModal Show="@Modal" medicineInfo="@formModel" OnValidSubmit="HandleSubmit" OnCancel="Close"/>
+@code {
+    private MedicineInfo formModel = new();
+    @* private bool showForm = false; *@
+    @* private string formMode = "Add"; *@
+    private bool isEditMode = false;
+    private bool Modal = false;
+    private void ShowAddForm()
+    {
+        formModel = new MedicineInfo();
+        @* showForm = true; *@
+        Modal=true;
+        @* formMode = "Add"; *@
+        isEditMode = false;
+    }
+
+    private void EditMedicine(MedicineInfo medicine)
+    {
+        formModel = new MedicineInfo
+        {
+            MedicineId = medicine.MedicineId,
+            MedicineName = medicine.MedicineName,
+            MedicineCount = medicine.MedicineCount,
+            MedicinePrice = medicine.MedicinePrice,
+            ExpiryDate = medicine.ExpiryDate
+        };
+        @* showForm = true; *@
+        Modal=true;
+        @* formMode = "Update"; *@
+        isEditMode = true;
+    }
+
+    private void DeleteMedicine(string id)
+    {
+        var item = UserState.Medicines.Find(m => m.MedicineId == id);
+        if (item != null)
+        {
+            UserState.Medicines.Remove(item);
+        }
+    }
+    private void HandleSubmit()
+    {
+        if (isEditMode)
+        {
+            var existing = UserState.Medicines.Find(m => m.MedicineId == formModel.MedicineId);
+            if (existing != null)
+            {
+                existing.MedicineName = formModel.MedicineName;
+                existing.MedicineCount = formModel.MedicineCount;
+                existing.MedicinePrice = formModel.MedicinePrice;
+                existing.ExpiryDate = formModel.ExpiryDate;
+            }
+        }
+        else
+        {
+            @* formModel = new MedicineInfo(); *@
+            UserState.Medicines.Add(formModel);
+        }
+        
+
+        @* showForm = false; *@
+        Modal=false;
+    }
+    private void Close()
+    {
+        Modal=false;
+    }
+}

@@ -1,0 +1,43 @@
+@page "/walletrecharge"
+@using MedicalStore.Models
+@inject UserStateService UserState
+
+<h3>Wallet Recharge</h3>
+
+@if (UserState.CurrentUser != null)
+{
+    @* <p>Hello, @UserState.CurrentUser.Name!</p> *@
+    <p>Current Wallet Balance: ₹@UserState.CurrentUser.WalletBalance</p>
+
+    <label >Enter amount to recharge:</label>
+    <input  @bind="rechargeAmount" type="number"  />
+
+    <button  @onclick="RechargeWallet">Recharge</button>
+
+    @if (!string.IsNullOrEmpty(StatusMessage))
+    {
+        <p >@StatusMessage</p>
+    }
+}
+else
+{
+    <p>No user is currently logged in.</p>
+}
+
+@code {
+    private int rechargeAmount;
+    private string StatusMessage = string.Empty;
+
+    private void RechargeWallet()
+    {
+        if (rechargeAmount <= 0)
+        {
+            StatusMessage = "Please enter a valid amount greater than 0.";
+            return;
+        }
+
+        UserState.CurrentUser.WalletBalance += rechargeAmount;
+        StatusMessage = $"Successfully recharged ₹{rechargeAmount}. New balance: ₹{UserState.CurrentUser.WalletBalance}";
+        rechargeAmount = 0; 
+    }
+}

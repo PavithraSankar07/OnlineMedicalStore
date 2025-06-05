@@ -10,12 +10,13 @@
 }
 else
 {
-    <p>Email: @UserState.CurrentUser.Email</p>
+    @* <p>Email: @UserState.CurrentUser.Email</p>
     <p>Mobile: @UserState.CurrentUser.MobileNumber</p>
-    <p>Wallet Balance: @UserState.CurrentUser.WalletBalance</p>
+    <p>Wallet Balance: @UserState.CurrentUser.WalletBalance</p> *@
+    <img src="css/store.jpg">
 }
 
-@code {
+@* @code {
     protected override void OnInitialized()
     {
         if (UserState.CurrentUser == null)
@@ -23,7 +24,7 @@ else
             Navigation.NavigateTo("/");
         }
     }
-}
+} *@
 
 
         

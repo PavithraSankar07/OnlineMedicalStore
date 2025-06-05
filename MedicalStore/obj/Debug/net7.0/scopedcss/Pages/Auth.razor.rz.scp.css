@@ -1,7 +1,7 @@
 /* Auth container */
-#full-form,
-.login,
-.signup {
+#full-form[b-zg1gatpa2c],
+.login[b-zg1gatpa2c],
+.signup[b-zg1gatpa2c] {
   background-color: aliceblue;
   border: 2px solid #ddd;
   border-radius: 8px;
@@ -11,16 +11,16 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 /* Layout for form fields  */
-.login,
-.signup{
+.login[b-zg1gatpa2c],
+.signup[b-zg1gatpa2c]{
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 /* Input fields  */
-.login input,
-.signup input,
-input {
+.login input[b-zg1gatpa2c],
+.signup input[b-zg1gatpa2c],
+input[b-zg1gatpa2c] {
   padding: 10px;
   border: 1px solid #aaa;
   border-radius: 5px;
@@ -29,7 +29,7 @@ input {
 }
 
  /* Buttons  */
-button {
+button[b-zg1gatpa2c] {
   padding: 10px;
   font-size: 1rem;
   background-color: #004aad;
@@ -39,12 +39,12 @@ button {
   cursor: pointer;
 }
 
-button:hover {
+button:hover[b-zg1gatpa2c] {
   background-color: #003580;
 }
 
  
-.whole-div  {
+.whole-div[b-zg1gatpa2c]  {
   display: flex;
   justify-content: center;
   gap: 1rem;
@@ -52,23 +52,23 @@ button:hover {
   margin-top: 10%;
 }
 
-.whole-div button {
+.whole-div button[b-zg1gatpa2c] {
   background-color: #666;
   color: white;
 }
 
-.toggle-buttons button:hover {
+.toggle-buttons button:hover[b-zg1gatpa2c] {
   background-color: #444;
 }
 
-.whole-div button[disabled] {
+.whole-div button[disabled][b-zg1gatpa2c] {
   background-color: #ccc;
   cursor: not-allowed;
 }
 
 
-.login h2,
-.signup h2 {
+.login h2[b-zg1gatpa2c],
+.signup h2[b-zg1gatpa2c] {
   text-align: center;
   margin-bottom: 1rem;
   font-size: 1.5rem;

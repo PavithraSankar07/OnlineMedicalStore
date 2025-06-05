@@ -1,9 +1,9 @@
-.nav-menu {
+.nav-menu[b-vsfnhpu00r] {
     background-color: #2f4f4f;
     padding: 10px;
 }
 
-.nav-menu ul {
+.nav-menu ul[b-vsfnhpu00r] {
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -11,13 +11,13 @@
     gap: 20px;
 }
 
-.nav-menu li a {
+.nav-menu li a[b-vsfnhpu00r] {
     color: white;
     text-decoration: none;
     font-weight: bold;
     cursor: pointer;
 }
 
-.nav-menu li a:hover {
+.nav-menu li a:hover[b-vsfnhpu00r] {
     text-decoration: underline;
 }

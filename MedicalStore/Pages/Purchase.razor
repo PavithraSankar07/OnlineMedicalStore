@@ -1,0 +1,130 @@
+@page "/purchase"
+@using MedicalStore.Models
+@inject UserStateService UserState
+
+<h3>Purchase Medicines</h3>
+
+<table class="medicine-table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Available</th>
+            <th>Expiry</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var medicine in UserState.Medicines)
+        {
+            <tr>
+                <td>@medicine.MedicineName</td>
+                <td>@medicine.MedicinePrice</td>
+                <td>@medicine.MedicineCount</td>
+                <td>@medicine.ExpiryDate</td>
+                <td>
+                    <button @onclick="() => BuyMedicine(medicine)">Buy</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (showQuantityInput)
+{
+    <div class="purchase-form">
+        <label>Enter Quantity:</label>
+        <InputNumber @bind-Value="purchaseQuantity" min="1" max="@maxAvailableCount" />
+        <button @onclick="ConfirmPurchase">Confirm Purchase</button>
+    </div>
+}
+@if (!string.IsNullOrEmpty(StatusMessage))
+{
+    <p>@StatusMessage</p>
+}
+@* <CustomDialog Message="@dialogMessage" IsVisible="@showDialog" OnClose="HideDialog" /> *@
+
+@code {
+    private string StatusMessage = string.Empty;
+    @* private bool showDialog = false;
+    private string dialogMessage = string.Empty; *@
+
+    private MedicineInfo selectedMedicine;
+    private int purchaseQuantity = 1;
+    private int maxAvailableCount = 0;
+    private bool showQuantityInput = false;
+
+    private void BuyMedicine(MedicineInfo medicine)
+    {
+        if (medicine.MedicineCount == 0)
+        {
+            @* ShowDialog("This medicine is out of stock."); *@
+            StatusMessage = "This medicine is out of stock.";
+            return;
+        }
+
+        if (medicine.ExpiryDate < DateTime.Now)
+        {
+            @* ShowDialog("This medicine is expired."); *@
+            StatusMessage = "This medicine is expired.";
+            return;
+        }
+
+        selectedMedicine = medicine;
+        maxAvailableCount = medicine.MedicineCount;
+        purchaseQuantity = 1;
+        showQuantityInput = true;
+    }
+
+    private void ConfirmPurchase()
+    {
+        showQuantityInput = false;
+
+        if (purchaseQuantity <= 0 || purchaseQuantity > maxAvailableCount)
+        {
+            @* ShowDialog("Invalid quantity selected."); *@
+            StatusMessage = "Invalid quantity selected..";
+            return;
+        }
+
+        int totalCost = selectedMedicine.MedicinePrice * purchaseQuantity;
+        int userBalance = UserState.CurrentUser.WalletBalance;
+
+        if (totalCost > userBalance)
+        {
+            @* ShowDialog("Insufficient wallet balance."); *@
+            StatusMessage = "Insufficient wallet balance.";
+            return;
+        }
+
+        // Deduct balance and stock
+        UserState.CurrentUser.WalletBalance = userBalance - totalCost;
+        selectedMedicine.MedicineCount = selectedMedicine.MedicineCount - purchaseQuantity;
+
+        // Add to order list
+        UserState.Orders.Add(new OrderInfo
+        {
+            MedicineName = selectedMedicine.MedicineName,
+            MedicineCount = purchaseQuantity,
+            TotalPrice = totalCost,
+            OrderDate = DateTime.Now,
+            UserID = UserState.CurrentUser.UserID,
+            PurchaseStatus = "Purchased"
+        });
+       @* Console.WriteLine(selectedMedicine.) *@
+        @* ShowDialog($"You purchased {purchaseQuantity} of {selectedMedicine.MedicineName} successfully."); *@
+        StatusMessage = $"You purchased {purchaseQuantity} of {selectedMedicine.MedicineName} successfully.";
+    }
+
+    @* private void ShowDialog(string message)
+    {
+        dialogMessage = message;
+        showDialog = true;
+    }
+
+    private Task HideDialog()
+    {
+        showDialog = false;
+        return Task.CompletedTask;
+    } *@
+}

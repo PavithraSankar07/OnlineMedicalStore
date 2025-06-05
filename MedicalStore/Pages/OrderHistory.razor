@@ -1,0 +1,126 @@
+@page "/orderhistory"
+@using MedicalStore.Models
+@inject UserStateService UserState
+
+<h3>Order History</h3>
+
+@if (UserState.CurrentUser == null)
+{
+    <p>Please login to view your order history.</p>
+}
+else if (userOrders.Count == 0)
+{
+    <p>No orders found.</p>
+}
+else
+{
+    <table class="medicine-table">
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Medicine Name</th>
+                <th>Quantity</th>
+                <th>Total Price</th>
+                <th>Order Date</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in userOrders)
+            {
+                <tr>
+                    <td>@order.OrderID</td>
+                    <td>@order.MedicineName</td>
+                    <td>@order.MedicineCount</td>
+                    <td>@order.TotalPrice</td>
+                    <td>@order.OrderDate.ToString("yyyy-MM-dd")</td>
+                    <td>@order.PurchaseStatus</td>
+                    <td>
+                            <button @onclick="()=>CancelOrder(order)" disabled="@IsCancelled(order)">Cancel</button>
+                        @* <button @onclick="() => ConfirmCancel(order)" disabled="@IsCancelled(order)"> *@
+                            @* Cancel *@
+                       
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+    @if (!string.IsNullOrEmpty(message))
+    {
+        <p class="text-success mt-3">@message</p>
+ }
+
+@* <CustomDialog IsVisible="@showDialog" Message="@dialogMessage" OnClose="DialogClose" /> *@
+
+@code {
+    private List<OrderInfo> userOrders = new();
+        private string message;
+    @* private bool showDialog = false;
+    private string dialogMessage = "";
+    private OrderInfo? orderToCancel; *@
+
+    protected override void OnInitialized()
+    {
+        LoadUserOrders();
+    }
+
+    private void LoadUserOrders()
+    {
+        if (UserState.CurrentUser != null)
+        {
+            userOrders = UserState.Orders
+                .Where(o => o.UserID == UserState.CurrentUser.UserID)
+                .ToList();
+        }
+    }
+
+    private bool IsCancelled(OrderInfo order) =>
+        order.PurchaseStatus?.ToLower() == "cancelled";
+
+    @* private void ConfirmCancel(OrderInfo order)
+    {
+        orderToCancel = order;
+        dialogMessage = $"Are you sure you want to cancel Order ID {order.OrderID} for {order.MedicineName}?";
+        showDialog = true;
+    } *@
+
+    @* private void DialogClose()
+    {
+        showDialog = false;
+        if (orderToCancel != null)
+        {
+            CancelOrder(orderToCancel);
+            orderToCancel = null;
+        }
+    } *@
+
+    private void CancelOrder(OrderInfo order)
+    {
+        if (IsCancelled(order))
+        {message = "Order already cancelled.";
+            return;
+        } 
+
+     
+        order.PurchaseStatus = "Cancelled";
+
+      
+        if (UserState.CurrentUser != null)
+        {
+                UserState.CurrentUser.WalletBalance+=order.TotalPrice;
+        }
+
+   
+        var medicine = UserState.Medicines.Find(m => m.MedicineId == order.MedicineID);
+        if (medicine != null)
+        { Console.WriteLine(medicine.MedicineCount);
+         Console.WriteLine(order.MedicineCount);
+            medicine.MedicineCount+=order.MedicineCount;
+            Console.WriteLine(medicine.MedicineCount);
+        }
+         message = $"Order ID {order.OrderID} has been cancelled and ₹{order.TotalPrice} has been refunded.";
+         @* message=$"{medicine.MedicineCount} {order.MedicineCount}"; *@
+    }
+}

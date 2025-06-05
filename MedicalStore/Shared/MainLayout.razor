@@ -1,18 +1,34 @@
-﻿@inherits LayoutComponentBase
+﻿@inject NavigationManager Navigation
+@inject UserStateService UserState
+@inherits LayoutComponentBase
 
-<PageTitle>MedicalStore</PageTitle>
+<PageTitle>Online Medical Store</PageTitle>
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
+<div class="main-layout">
+    @if (UserState.CurrentUser is not null)
+    {
+      <nav class="nav-menu">
+    <ul>
+        <li><NavLink href="/home">Home</NavLink></li>
+        <li><NavLink href="/medicinedetails">Medicine Details</NavLink></li>
+        <li><NavLink href="/purchase">Purchase</NavLink></li>
+        <li><NavLink href="/orderhistory">History</NavLink></li>
+        <li><NavLink href="/walletrecharge">WalletRecharge</NavLink></li>
+        <li><a @onclick="Logout">Logout</a></li>
+    </ul>
+</nav>
+
+    }
+
+    <div class="body">
+        @Body
     </div>
-
-    <main>
-        <div class="top-row px-4">
-            @* <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a> *@
-        </div>
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
 </div>
+
+@code {
+    private void Logout()
+    {
+        UserState.CurrentUser = null;
+        Navigation.NavigateTo("/");
+    }
+}

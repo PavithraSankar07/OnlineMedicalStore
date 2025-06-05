@@ -1,0 +1,27 @@
+.medicine-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.medicine-table th,
+.medicine-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.medicine-table th {
+    background-color: #f4f4f4;
+}
+
+.form-section {
+    margin-top: 1rem;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.form-section input {
+    padding: 6px;
+    width: 180px;
+}

@@ -1,0 +1,27 @@
+.medicine-table[b-1f173vtlep] {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.medicine-table th[b-1f173vtlep],
+.medicine-table td[b-1f173vtlep] {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.medicine-table th[b-1f173vtlep] {
+    background-color: #f4f4f4;
+}
+
+.form-section[b-1f173vtlep] {
+    margin-top: 1rem;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.form-section input[b-1f173vtlep] {
+    padding: 6px;
+    width: 180px;
+}

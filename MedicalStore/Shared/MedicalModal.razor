@@ -1,0 +1,57 @@
+@using MedicalStore.Models
+@code
+{
+    [Parameter]
+    public MedicineInfo medicineInfo { get; set; }
+    [Parameter]
+    public EventCallback<MedicineInfo> OnValidSubmit { get; set; }
+    [Parameter]
+    public EventCallback OnCancel { get; set; }
+    [Parameter]
+    public bool Show { get; set; }
+
+    private MedicineInfo medicineList = new();
+
+    protected override void OnParametersSet()
+    {
+        if (medicineInfo != null)
+        {
+            medicineList = new MedicineInfo
+            {
+                MedicineId = medicineInfo.MedicineId,
+                ExpiryDate = medicineInfo.ExpiryDate,
+                MedicineCount = medicineInfo.MedicineCount,
+                MedicineName = medicineInfo.MedicineName,
+                MedicinePrice = medicineInfo.MedicinePrice
+            };
+        }
+    }
+    private void Submit()
+    {
+        OnValidSubmit.InvokeAsync(medicineList);
+    }
+
+}
+@if (Show)
+{
+
+<div class="form">
+    <EditForm Model="@medicineInfo" OnValidSubmit="Submit">
+        <div>
+            <button @onclick="OnCancel">X</button> <br>
+            <label>MedicineName</label>
+            <InputText @bind-Value="medicineList.MedicineName"></InputText> <br>
+            <label>MedicineCount</label>
+            <InputNumber @bind-Value="medicineList.MedicineCount"></InputNumber> <br>
+            <label>MedicinePrice</label>
+            <InputNumber @bind-Value="medicineList.MedicinePrice"></InputNumber> <br>
+            <label>ExpiryDate</label>
+            <InputDate @bind-Value="medicineList.ExpiryDate"></InputDate>
+        </div>
+        <div>
+            <button type="submit">Save</button>
+            <button type="button" @onclick="OnCancel">Cancel</button>
+        </div>
+    </EditForm>
+    </div>
+}
