@@ -37,29 +37,48 @@ else
                     <td>@order.OrderDate.ToString("yyyy-MM-dd")</td>
                     <td>@order.PurchaseStatus</td>
                     <td>
-                            <button @onclick="()=>CancelOrder(order)" disabled="@IsCancelled(order)">Cancel</button>
-                        @* <button @onclick="() => ConfirmCancel(order)" disabled="@IsCancelled(order)"> *@
-                            @* Cancel *@
-                       
+                        <button @onclick="() => ConfirmCancel(order)" disabled="@IsCancelled(order)">Cancel</button>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
 }
-    @if (!string.IsNullOrEmpty(message))
-    {
-        <p class="text-success mt-3">@message</p>
- }
 
-@* <CustomDialog IsVisible="@showDialog" Message="@dialogMessage" OnClose="DialogClose" /> *@
+@* @if (!string.IsNullOrEmpty(message))
+{
+    <p>@message</p>
+} *@
 
+<CustomDialog 
+    IsVisible="@showDialog" 
+    Message="@dialogMessage" 
+    OnClose="CloseDialog" 
+    OnCancel="CloseDialog" 
+    OnConfirm="Cancel" />
+
+<DialogBox Message="@canceMessage" IsVisible="@showCancelBox" OnClose="@Close"></DialogBox>
 @code {
+    private static string canceMessage;
+    private bool showCancelBox = false;
+    private void Close()
+    {
+        showCancelBox = false;
+    }
+    private void ShowDialogMessage(string message)
+    {
+        canceMessage=message;
+        showCancelBox=true;
+        StateHasChanged();
+    }
+
+    @* ------------------------------------- *@
     private List<OrderInfo> userOrders = new();
-        private string message;
-    @* private bool showDialog = false;
-    private string dialogMessage = "";
-    private OrderInfo? orderToCancel; *@
+    private string message;
+
+    private bool showDialog = false;
+    private string dialogMessage = string.Empty;
+    private OrderInfo? orderToCancel;
 
     protected override void OnInitialized()
     {
@@ -77,50 +96,58 @@ else
     }
 
     private bool IsCancelled(OrderInfo order) =>
-        order.PurchaseStatus?.ToLower() == "cancelled";
+        order.PurchaseStatus.ToLower() == "cancelled";
 
-    @* private void ConfirmCancel(OrderInfo order)
+    private void ConfirmCancel(OrderInfo order)
     {
         orderToCancel = order;
         dialogMessage = $"Are you sure you want to cancel Order ID {order.OrderID} for {order.MedicineName}?";
         showDialog = true;
-    } *@
+    }
 
-    @* private void DialogClose()
+    private Task CloseDialog()
     {
         showDialog = false;
-        if (orderToCancel != null)
-        {
-            CancelOrder(orderToCancel);
-            orderToCancel = null;
-        }
-    } *@
+        orderToCancel = null;
+        return Task.CompletedTask;
+    }
 
-    private void CancelOrder(OrderInfo order)
+    private Task Cancel()
     {
-        if (IsCancelled(order))
-        {message = "Order already cancelled.";
-            return;
-        } 
+        if (orderToCancel == null)
+            return Task.CompletedTask;
 
-     
+        var order = orderToCancel;
+
+        if (IsCancelled(order))
+        {
+            ShowDialogMessage("Order already cancelled");
+            @* message = "Order already cancelled."; *@
+            showDialog = true;
+            orderToCancel = null;
+            return Task.CompletedTask;
+        }
         order.PurchaseStatus = "Cancelled";
 
-      
+       
         if (UserState.CurrentUser != null)
         {
-                UserState.CurrentUser.WalletBalance+=order.TotalPrice;
+            UserState.CurrentUser.WalletBalance += order.TotalPrice;
         }
 
-   
+    
         var medicine = UserState.Medicines.Find(m => m.MedicineId == order.MedicineID);
         if (medicine != null)
-        { Console.WriteLine(medicine.MedicineCount);
-         Console.WriteLine(order.MedicineCount);
-            medicine.MedicineCount+=order.MedicineCount;
-            Console.WriteLine(medicine.MedicineCount);
+        {
+            medicine.MedicineCount += order.MedicineCount;
         }
-         message = $"Order ID {order.OrderID} has been cancelled and ₹{order.TotalPrice} has been refunded.";
-         @* message=$"{medicine.MedicineCount} {order.MedicineCount}"; *@
+
+        @* message = $"Order ID {order.OrderID} has been cancelled and ₹{order.TotalPrice} has been refunded."; *@
+        ShowDialogMessage($"{order.OrderID} has been cancelled");
+
+       
+        showDialog = false;
+        orderToCancel = null;
+        return Task.CompletedTask;
     }
 }

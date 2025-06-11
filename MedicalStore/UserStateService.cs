@@ -22,8 +22,8 @@ namespace MedicalStore
         new UserInfo
         {
             UserID = "2",
-            Name = "Ragu",
-            Email = "ragu@gmail.com",
+            Name = "Ravi",
+            Email = "ravi@gmail.com",
             Password = "123",
             MobileNumber = "0987654321",
             WalletBalance = 2000
@@ -42,16 +42,56 @@ namespace MedicalStore
         MedicineName = "Paracetamol",
         MedicineCount = 50,
         MedicinePrice = 20,
-        ExpiryDate = new DateTime(2025,11,11)
+        ExpiryDate = new DateTime(2024,11,11)
     },
     new MedicineInfo
     {
 
         MedicineName = "Amoxicillin",
+        MedicineCount = 10,
+        MedicinePrice = 5,
+        ExpiryDate = new DateTime(2026,11,11)
+    },
+     new MedicineInfo
+    {
+
+        MedicineName = "Calpol",
         MedicineCount = 30,
         MedicinePrice = 45,
-        ExpiryDate = new DateTime(2024,11,11)
-    }
+        ExpiryDate = new DateTime(2026,11,11)
+    },
+     new MedicineInfo
+    {
+
+        MedicineName = "Gelucil",
+        MedicineCount = 3,
+        MedicinePrice = 40,
+        ExpiryDate = new DateTime(2025,06,05)
+    },
+     new MedicineInfo
+    {
+
+        MedicineName = "Metrogel",
+        MedicineCount = 5,
+        MedicinePrice = 50,
+        ExpiryDate = new DateTime(2025,08,10)
+    },
+     new MedicineInfo
+    {
+
+        MedicineName = "Povidin Iodin",
+        MedicineCount = 10,
+        MedicinePrice = 50,
+        ExpiryDate = new DateTime(2025,11,27)
+    },
+     new MedicineInfo
+    {
+
+        MedicineName = "Dolo",
+        MedicineCount = 1,
+        MedicinePrice = 35,
+        ExpiryDate = new DateTime(2025,11,30)
+    },
 };
         public List<OrderInfo> Orders { get; set; } = new List<OrderInfo>();
 

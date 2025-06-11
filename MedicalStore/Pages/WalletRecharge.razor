@@ -4,12 +4,20 @@
 
 <h3>Wallet Recharge</h3>
 
-@if (UserState.CurrentUser != null)
-{
+
     @* <p>Hello, @UserState.CurrentUser.Name!</p> *@
     <p>Current Wallet Balance: ₹@UserState.CurrentUser.WalletBalance</p>
 
-    <label >Enter amount to recharge:</label>
+     <div class="form">
+        <h4>Enter Quantity</h4>
+        <InputNumber @bind-Value="rechargeAmount"/>
+        <div class="form-button">
+          <button @onclick="ConfirmAmount">Confirm</button>
+          <button @onclick="CancelAmount">Cancel</button>
+        </div>
+     </div>
+<CustomDialog Message="@dialogMessage" IsVisible="@showDialog" OnClose="HideDialog" OnCancel="Cancel" OnConfirm="CreditAmount"/>
+    @* <label >Enter amount to recharge:</label>
     <input  @bind="rechargeAmount" type="number"  />
 
     <button  @onclick="RechargeWallet">Recharge</button>
@@ -17,15 +25,64 @@
     @if (!string.IsNullOrEmpty(StatusMessage))
     {
         <p >@StatusMessage</p>
-    }
-}
-else
+    } *@
+
+@* else
 {
     <p>No user is currently logged in.</p>
-}
+} *@
 
 @code {
+
     private int rechargeAmount;
+    private static string dialogMessage;
+    public bool showDialog=false;
+    private void ConfirmAmount()
+    {
+        showDialog=false;
+        if(rechargeAmount<=0)
+        {
+            ShowDialogMessage("Invalid amount. Enter the valid amount");
+             return;
+        }
+        else
+        {
+            UserState.CurrentUser.WalletBalance+=rechargeAmount;
+            ShowDialogMessage("Recharge Successfuklly");
+        }
+        
+    }
+    private void CancelAmount()
+    {
+         showDialog=false;
+    }
+    private void ShowDialogMessage(string message)
+    {
+       dialogMessage=message;
+       showDialog=true;
+    }
+    private Task HideDialog()
+    {
+        showDialog=false;
+        return Task.CompletedTask;
+    }
+
+    private Task Cancel()
+    {
+
+        showDialog=false;
+      return Task.CompletedTask;
+    }
+    private Task CreditAmount()
+    {
+        @* UserState.CurrentUser.WalletBalance+=rechargeAmount;
+        ShowDialogMessage($"Amount credited successfully "); *@
+
+        showDialog=false;
+        return Task.CompletedTask;
+    }
+
+    @* private int rechargeAmount;
     private string StatusMessage = string.Empty;
 
     private void RechargeWallet()
@@ -39,5 +96,6 @@ else
         UserState.CurrentUser.WalletBalance += rechargeAmount;
         StatusMessage = $"Successfully recharged ₹{rechargeAmount}. New balance: ₹{UserState.CurrentUser.WalletBalance}";
         rechargeAmount = 0; 
-    }
+    } *@
 }
+

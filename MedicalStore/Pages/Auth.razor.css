@@ -1,10 +1,13 @@
-/* Auth container */
+body
+{
+  background-image: url('/wwwroot/css/pngtree-facade-pharmacy-store-with-a-signboard-picture-image_7734898.png');
+}
 #full-form,
 .login,
 .signup {
   background-color: aliceblue;
   border: 2px solid #ddd;
-  border-radius: 8px;
+
   padding: 1.5rem;
   max-width: 400px;
   margin: 2rem auto;
@@ -22,7 +25,7 @@
 .signup input,
 input {
   padding: 10px;
-  border: 1px solid #aaa;
+  /* border: 1px solid hsl(0, 53%, 30%); */
   border-radius: 5px;
   font-size: 1rem;
   width: 100%;
@@ -39,32 +42,26 @@ button {
   cursor: pointer;
 }
 
-button:hover {
+/* button:hover {
   background-color: #003580;
-}
+} */
 
  
 .whole-div  {
   display: flex;
   justify-content: center;
-  gap: 1rem;
+  gap: 9px;
   margin-bottom: 1rem;
   margin-top: 10%;
 }
 
 .whole-div button {
-  background-color: #666;
+  background-color: hwb(184 7% 20%);
   color: white;
 }
 
-.toggle-buttons button:hover {
-  background-color: #444;
-}
 
-.whole-div button[disabled] {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
+
 
 
 .login h2,

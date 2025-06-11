@@ -12,20 +12,21 @@
 
     private MedicineInfo medicineList = new();
 
-    protected override void OnParametersSet()
+   protected override void OnParametersSet()
+{
+    if (Show && medicineInfo != null)
     {
-        if (medicineInfo != null)
+        medicineList = new MedicineInfo
         {
-            medicineList = new MedicineInfo
-            {
-                MedicineId = medicineInfo.MedicineId,
-                ExpiryDate = medicineInfo.ExpiryDate,
-                MedicineCount = medicineInfo.MedicineCount,
-                MedicineName = medicineInfo.MedicineName,
-                MedicinePrice = medicineInfo.MedicinePrice
-            };
-        }
+            MedicineId = medicineInfo.MedicineId,
+            ExpiryDate = medicineInfo.ExpiryDate,
+            MedicineCount = medicineInfo.MedicineCount,
+            MedicineName = medicineInfo.MedicineName,
+            MedicinePrice = medicineInfo.MedicinePrice
+        };
     }
+}
+
     private void Submit()
     {
         OnValidSubmit.InvokeAsync(medicineList);
@@ -34,24 +35,32 @@
 }
 @if (Show)
 {
-
+<div class="popup-overlay">
 <div class="form">
-    <EditForm Model="@medicineInfo" OnValidSubmit="Submit">
+    <EditForm Model="@medicineList" OnValidSubmit="Submit">
         <div>
+            <div class="top">
+            <h4>Notification</h4>
             <button @onclick="OnCancel">X</button> <br>
+
+            </div>
+            <div class="body">
             <label>MedicineName</label>
             <InputText @bind-Value="medicineList.MedicineName"></InputText> <br>
             <label>MedicineCount</label>
             <InputNumber @bind-Value="medicineList.MedicineCount"></InputNumber> <br>
             <label>MedicinePrice</label>
             <InputNumber @bind-Value="medicineList.MedicinePrice"></InputNumber> <br>
-            <label>ExpiryDate</label>
-            <InputDate @bind-Value="medicineList.ExpiryDate"></InputDate>
+            <label>ExpiryDate</label> <br>
+            <InputDate @bind-Value="medicineList.ExpiryDate"></InputDate> 
         </div>
-        <div>
-            <button type="submit">Save</button>
+        </div>
+        <div class="end">
+            <br>
+            <button type="submit" class="one">Save</button>
             <button type="button" @onclick="OnCancel">Cancel</button>
         </div>
     </EditForm>
+    </div>
     </div>
 }

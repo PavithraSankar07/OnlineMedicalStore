@@ -12,7 +12,7 @@ namespace MedicalStore.Models
         public string MedicineName { get; set; }
         public int MedicineCount { get; set; }
         public int MedicinePrice { get; set; }
-        public DateTime ExpiryDate { get; set; }
+        public DateTime ExpiryDate { get; set; } = System.DateTime.Now;
 
         public MedicineInfo()
         {

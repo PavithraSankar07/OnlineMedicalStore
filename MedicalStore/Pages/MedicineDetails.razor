@@ -6,7 +6,7 @@
 
 <h3>Medicine Details</h3>
 
-<button @onclick="ShowAddForm">Add Medicine</button>
+<button class="addbutton" @onclick="ShowAddForm">Add Medicine</button>
 
 <table class="medicine-table">
     <thead>
@@ -51,7 +51,9 @@
         </div>
     </EditForm>
 } *@
-<MedicalModal Show="@Modal" medicineInfo="@formModel" OnValidSubmit="HandleSubmit" OnCancel="Close"/>
+@* <MedicalModal Show="@Modal" medicineInfo="@formModel" OnValidSubmit="HandleSubmit" OnCancel="Close"/> *@
+@* <MedicalModal Show="@Modal" medicineInfo="@formModel" OnValidSubmit="HandleSubmit" OnCancel="Close" /> *@
+<MedicalModal Show="@Modal" medicineInfo="@formModel" OnValidSubmit="HandleSubmit" OnCancel="Close" />
 @code {
     private MedicineInfo formModel = new();
     @* private bool showForm = false; *@
@@ -91,29 +93,27 @@
             UserState.Medicines.Remove(item);
         }
     }
-    private void HandleSubmit()
+ private async Task HandleSubmit(MedicineInfo medicine)
+{
+    if (isEditMode)
     {
-        if (isEditMode)
+        var existing = UserState.Medicines.Find(m => m.MedicineId == medicine.MedicineId);
+        if (existing != null)
         {
-            var existing = UserState.Medicines.Find(m => m.MedicineId == formModel.MedicineId);
-            if (existing != null)
-            {
-                existing.MedicineName = formModel.MedicineName;
-                existing.MedicineCount = formModel.MedicineCount;
-                existing.MedicinePrice = formModel.MedicinePrice;
-                existing.ExpiryDate = formModel.ExpiryDate;
-            }
+            existing.MedicineName = medicine.MedicineName;
+            existing.MedicineCount = medicine.MedicineCount;
+            existing.MedicinePrice = medicine.MedicinePrice;
+            existing.ExpiryDate = medicine.ExpiryDate;
         }
-        else
-        {
-            @* formModel = new MedicineInfo(); *@
-            UserState.Medicines.Add(formModel);
-        }
-        
-
-        @* showForm = false; *@
-        Modal=false;
     }
+    else
+    {
+        UserState.Medicines.Add(medicine);
+    }
+
+    Modal = false;
+}
+
     private void Close()
     {
         Modal=false;
