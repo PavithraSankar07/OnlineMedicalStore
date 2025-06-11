@@ -2,18 +2,96 @@
 @inject UserStateService UserState
 @inject NavigationManager Navigation
 
-<h2>Welcome, @UserState.CurrentUser?.Name!</h2>
-    <img src="css/store.jpg">
+<div class="background"></div>
 
-@* @code {
-    protected override void OnInitialized()
-    {
-        if (UserState.CurrentUser == null)
-        {
-            Navigation.NavigateTo("/");
-        }
-    }
-} *@
+<div class="content-container">
+    <h2 class="centered-header">Welcome, @UserState.CurrentUser?.Name!</h2>
 
-
+    <div class="main-row">
+        <img src="css/store.jpg" class="left-image" alt="Store Image" />
         
+        <div class="content-right">
+            <h3>We care for you and health</h3>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus omnis iure id minima itaque excepturi temporibus at fuga nostrum hic delectus magni tempore, repellat eos sunt dolorem accusantium dolorum consequatur!</p>
+            
+            <div class="images-row">
+                <img src="css/OIP.jpg" class="circle-image" alt="Circle Image" />
+                <img src="css/unnamed.webp" class="normal-image" alt="Second Image" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+
+  .background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: url('css/Developing-online-Pharmacy-App-Solutions.jpg');
+    background-size: cover;
+    background-position: center;
+    filter: blur(8px);
+    z-index: -1; 
+  }
+
+  
+  .content-container {
+    background-color: rgba(255, 255, 255, 0.9); 
+    margin: 2rem auto;
+    padding: 2rem;
+    max-width: 900px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  }
+
+  .centered-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #333;
+  }
+
+  .main-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+
+  .left-image {
+    max-width: 250px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+
+  .content-right {
+    flex: 1;
+    color: #333;
+  }
+
+  .images-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .circle-image {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ccc;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+
+  .normal-image {
+    max-height: 80px;
+     @* border-radius: 30%; *@
+    object-fit: contain;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+</style>

@@ -8,6 +8,7 @@
 <table class="medicine-table">
     <thead>
         <tr>
+            <th>S.NO</th>
             <th>Name</th>
             <th>Price</th>
             <th>Available</th>
@@ -19,6 +20,7 @@
         @foreach (var medicine in UserState.Medicines)
         {
             <tr>
+                <td>@medicine.SerialNumber</td>
                 <td>@medicine.MedicineName</td>
                 <td>@medicine.MedicinePrice</td>
                 <td>@medicine.MedicineCount</td>

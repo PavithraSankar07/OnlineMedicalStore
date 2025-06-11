@@ -33,6 +33,10 @@ namespace MedicalStore
 
 
         public UserInfo? CurrentUser { get; set; }
+        public void ClearUser()
+        {
+            CurrentUser = null;
+        }
 
         public List<MedicineInfo> Medicines { get; set; } = new List<MedicineInfo>
 {

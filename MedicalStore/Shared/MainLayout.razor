@@ -1,34 +1,40 @@
 ﻿@inject NavigationManager Navigation
-@inject UserStateService UserState
+@inject UserStateService User
 @inherits LayoutComponentBase
 
 <PageTitle>Online Medical Store</PageTitle>
 
-<div class="main-layout">
-    @if (UserState.CurrentUser!=null)
-    {
-      <nav class="nav-menu">
-    <ul>
-        <li><NavLink href="/home">Home</NavLink></li>
-        <li><NavLink href="/medicinedetails">Medicine Details</NavLink></li>
-        <li><NavLink href="/purchase">Purchase</NavLink></li>
-        <li><NavLink href="/orderhistory">History</NavLink></li>
-        <li><NavLink href="/walletrecharge">WalletRecharge</NavLink></li>
-        <li><a @onclick="Logout">Logout</a></li>
-    </ul>
-</nav>
 
+
+<PageTitle>BlazorApp</PageTitle>
+
+<div class="page">
+     @if(User.CurrentUser!=null)
+  {
+    <div class="sidebar">
+       
+        <NavMenu />
+        
+    </div>
     }
 
-    <div class="body">
-        @Body
-    </div>
+    <main>
+         @if(User.CurrentUser!=null)
+  {
+        <div class="top-row px-4">
+            <button @onclick="Logout">Logout</button>
+        </div>
+}
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
 </div>
 
 @code {
     private void Logout()
-    {
-        UserState.CurrentUser = null;
+    {  User.ClearUser();
+        StateHasChanged();    
         Navigation.NavigateTo("/");
     }
 }

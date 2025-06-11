@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 namespace MedicalStore.Models
 {
     public class OrderInfo
-    {
+    {private static int s_serialnumber = 1;
+        public int  SerialNumber{ get; set; }
         private static int s_orderid = 1;
         public string OrderID { get; set; }
         public string MedicineName { get; set; }
@@ -19,6 +20,7 @@ namespace MedicalStore.Models
         public OrderInfo()
         {
             OrderID = "OID" + s_orderid++;
+            SerialNumber = s_serialnumber++;
         }
     }
 }

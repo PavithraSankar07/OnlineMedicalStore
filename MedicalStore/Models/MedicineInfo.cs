@@ -8,6 +8,8 @@ namespace MedicalStore.Models
     public class MedicineInfo
     {
         private static int s_medicineid = 1;
+        private static int s_serialnumber = 1;
+        public int  SerialNumber{ get; set; }
         public string MedicineId { get; set; }
         public string MedicineName { get; set; }
         public int MedicineCount { get; set; }
@@ -16,7 +18,9 @@ namespace MedicalStore.Models
 
         public MedicineInfo()
         {
-            MedicineId = "MID"+s_medicineid++;
+            MedicineId = "MID" + s_medicineid++;
+            SerialNumber = s_serialnumber++;
+            
         }
 
     }

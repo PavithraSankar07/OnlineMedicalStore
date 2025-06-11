@@ -17,7 +17,7 @@ else
     <table class="medicine-table">
         <thead>
             <tr>
-                <th>Order ID</th>
+                <th>S.NO</th>
                 <th>Medicine Name</th>
                 <th>Quantity</th>
                 <th>Total Price</th>
@@ -30,7 +30,7 @@ else
             @foreach (var order in userOrders)
             {
                 <tr>
-                    <td>@order.OrderID</td>
+                    <td>@order.SerialNumber</td>
                     <td>@order.MedicineName</td>
                     <td>@order.MedicineCount</td>
                     <td>@order.TotalPrice</td>
