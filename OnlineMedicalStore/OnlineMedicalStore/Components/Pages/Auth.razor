@@ -1,0 +1,96 @@
+@page "/"
+@using OnlineMedicalStore.Models
+@using OnlineMedicalStore.Service
+@inject UserService UserState
+@* Create the switching tab *@
+<div>
+    <button>Login</button>
+    <button>SignUp</button>
+</div>
+@* Login *@
+<EditForm Model="@userInfo" OnValidSubmit="Login" FormName="Login">
+    <DataAnnotationsValidator/>
+    <ValidationSummary/>
+    <div>
+        <h2>Login</h2>
+        <InputText @bind-Value="userInfo.Email" placeholder="Email"></InputText>
+        <InputText @bind-Value="userInfo.Password" placeholder="Password"></InputText>
+        <button type="submit">Login</button>
+    </div>
+</EditForm>
+@* SignUp *@
+
+
+<EditForm Model="@userInfo" OnValidSubmit="SignUp" FormName="SignUp">
+    <div>
+        <h2>SignUp</h2>
+        <InputText @bind-Value="userInfo.Name"></InputText>
+        <InputText @bind-Value="userInfo.Email"></InputText>
+        <InputText @bind-Value="userInfo.MobileNumber"></InputText>
+        <InputText @bind-Value="userInfo.Password"></InputText>
+        <InputNumber @bind-Value="userInfo.WalletBalance"></InputNumber>
+        <button type="submit">SignUp</button>
+    </div>
+</EditForm>
+
+@if (!string.IsNullOrEmpty(Message))
+{
+    <p>@Message</p>
+}
+@* ------------------------------------------------------------------------------------------------ *@
+@code
+{
+    string Message = "";
+    public UserInfo userInfo = new();
+    @* SignUp *@
+    public void SignUp()
+    {
+        @* Check if user existing *@
+        UserInfo existingUser = UserState.users.Find(u => u.Email.Equals(userInfo.Email));
+        @* if exists *@
+        if (existingUser != null)
+        {
+            Message = "Already Exists";
+        }
+        @* if not exists *@
+        else
+        {
+            UserInfo user = new()
+            {
+                Email = userInfo.Email,
+                MobileNumber = userInfo.MobileNumber,
+                Name = userInfo.Name,
+                Password = userInfo.Password,
+                WalletBalance = userInfo.WalletBalance
+            };
+            UserState.users.Add(user);
+            Console.WriteLine(user.Email);
+            Message = "Success";
+        }
+    }
+    @* Login *@
+    public void Login()
+    {
+
+        foreach(var c in UserState.users)
+        {
+            Console.WriteLine(c.Email);
+            Console.WriteLine(c.Password);
+        }
+        @* Check if user existing *@
+        var existingUser = UserState.users.Find(u => u.Email.Equals(userInfo.Email) && u.Password==userInfo.Password);
+        @* if exists *@
+        if (existingUser != null)
+        {
+            UserState.CurrentUser = existingUser;
+        }
+        @* if not exists *@
+        else
+        {
+            Message = "inavalid credential";
+        }
+
+    }
+
+
+}
