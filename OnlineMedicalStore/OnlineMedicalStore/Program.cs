@@ -14,14 +14,20 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     // Enables Blazor WebAssembly interactivity. It tells the server how to serve the .wasm and .dll files to the browser.
     .AddInteractiveWebAssemblyComponents();
-
-    // Need to understand
+builder.Services.AddServerSideBlazor()
+    .AddCircuitOptions(options => { options.DetailedErrors = true; });
+builder.Services.AddControllers();
+// Need to understand
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped(hc => new HttpClient { BaseAddress = new Uri("http://localhost:5234") });
 builder.Services.AddAuthentication("Cookies").AddCookie(Options
 =>
 {
     Options.Cookie.Name = "Cookies";
+    Options.LoginPath = "/";
+    Options.AccessDeniedPath = "/accessdenied";
 });
+
 // builder.Services.AddAuthentication();
 builder.Services.AddAuthorization();
 builder.Services.AddCascadingAuthenticationState(); 
@@ -39,17 +45,19 @@ else
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-app.UseAntiforgery();
+
 app.UseAuthentication();
+app.UseRouting();
 app.UseAuthorization();
+app.UseAntiforgery();
+app.MapControllers();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()
     .AddInteractiveWebAssemblyRenderMode()
     .AddAdditionalAssemblies(typeof(OnlineMedicalStore.Client._Imports).Assembly);
-
+// app.MapauthEndpoints();
 app.Run();
 
 

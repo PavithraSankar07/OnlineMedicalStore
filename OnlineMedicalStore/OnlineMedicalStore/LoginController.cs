@@ -15,7 +15,7 @@ using OnlineMedicalStore.Service;
 namespace OnlineMedicalStore
 {
     [ApiController]
-    [Route("login")]
+    [Route("api/login")]
 
     public class LoginController : Controller
     {
@@ -24,24 +24,33 @@ namespace OnlineMedicalStore
         {
             _userService = userService;
         }
-
         [HttpPost]
-        public async Task<IActionResult> Login([FromBody] UserInfo user)
+        public async Task<IActionResult> Login([FromBody] LoginInfo user)
         {
+           
             var existingUser = _userService.Login(user.Email, user.Password);
-            if (user != null)
-            {
+            if (existingUser != null)
+          {
+
                 var claims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.Name,user.Name),
-                    new Claim(ClaimTypes.Email,user.Email),
+                    new Claim(ClaimTypes.Name,existingUser.Name),
+                    new Claim(ClaimTypes.Email,existingUser.Email),
                     new Claim(ClaimTypes.Role,"Admin")
                 };
                 var claimsIdentity = new ClaimsIdentity(claims, "Cookies");
-              
-                await HttpContext.SignInAsync("Cookies", principal);
-                return Redirect("/home");
+                await HttpContext.SignInAsync("Cookies", new ClaimsPrincipal(claimsIdentity));
+                
+                return Ok(new { message = "Login" });
             }
+            
+            return Unauthorized(new { message = "Invalid" });
+        }
+        [HttpGet]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync("Cookies");
+            return Redirect("/");
         }
     }
 }
