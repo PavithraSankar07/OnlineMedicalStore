@@ -20,15 +20,6 @@ namespace OnlineMedicalStore.Service
                 MobileNumber = "1234567890",
                 WalletBalance = 1000,
                 Role="Admin"
-               },
-               new UserInfo
-               {
-                Name = "Ragu",
-                Email = "ragu@gmail.com",
-                Password = "123",
-                MobileNumber = "1234567890",
-                WalletBalance = 1000,
-                Role="User"
                }
         };
         //Set current user

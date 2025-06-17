@@ -36,7 +36,7 @@ namespace OnlineMedicalStore
                 {
                     new Claim(ClaimTypes.Name,existingUser.Name),
                     new Claim(ClaimTypes.Email,existingUser.Email),
-                    new Claim(ClaimTypes.Role,"Admin")
+                    new Claim(ClaimTypes.Role,existingUser.Role)
                 };
                 var claimsIdentity = new ClaimsIdentity(claims, "Cookies");
                 await HttpContext.SignInAsync("Cookies", new ClaimsPrincipal(claimsIdentity));
@@ -46,7 +46,7 @@ namespace OnlineMedicalStore
             
             return Unauthorized(new { message = "Invalid" });
         }
-        [HttpGet]
+        [HttpGet("logout")]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync("Cookies");
