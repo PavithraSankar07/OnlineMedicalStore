@@ -24,6 +24,8 @@
     </div>
 </EditForm>
 
+<pre>@System.Text.Json.JsonSerializer.Serialize(LoginInfo)</pre>
+
 @* SignUp *@
 <EditForm Model="@SignUpInfo" OnValidSubmit="SignUp" FormName="SignUp">
     <div>
@@ -38,6 +40,8 @@
     </div>
 </EditForm>
 
+
+<pre>@System.Text.Json.JsonSerializer.Serialize(SignUpInfo)</pre>
 
 @if (!string.IsNullOrEmpty(Message))
 {

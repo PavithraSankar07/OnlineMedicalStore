@@ -1,0 +1,9 @@
+@page "/orderdetails"
+@using Microsoft.AspNetCore.Authorization
+@using OnlineMedicalStore.Models
+@using OnlineMedicalStore.Service
+@rendermode InteractiveServer
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@attribute [Authorize (Roles ="Admin")]
+
+<h2>Byee</h2>

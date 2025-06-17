@@ -1,0 +1,8 @@
+@page "/walletrecharge"
+@using Microsoft.AspNetCore.Authorization
+@using OnlineMedicalStore.Models
+@using OnlineMedicalStore.Service
+@rendermode InteractiveServer
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@attribute [Authorize (Roles ="Admin, User")]
+<h2>Wallet</h2>

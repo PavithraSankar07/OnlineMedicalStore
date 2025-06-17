@@ -1,0 +1,80 @@
+@page "/medicinedetails"
+@using Microsoft.AspNetCore.Authorization
+@using OnlineMedicalStore.Models
+@using OnlineMedicalStore.Service
+@rendermode InteractiveServer
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@attribute [Authorize (Roles ="Admin")]
+@inject MedicineService Medicineservice
+<table>
+    <thead>
+        <tr>
+            <th>Serial Number</th>
+            <th>Medicine Name</th>
+            <th>Medicine Count</th>
+            <th>Medicine Price</th>
+            <th>Expiry Date</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var medicine in medicineDetails1)
+        {
+            <tr>
+                <td>1</td>
+                <td>@medicine.MedicineName</td>
+                <td>@medicine.MedicineCount</td>
+                <td>@medicine.MedicinePrice</td>
+                <td>@medicine.ExpiryDate</td>
+                <td>
+                    <button @onclick="()=>EditMedicine(medicine)">Edit</button>
+                    <button @onclick="()=>DeleteMedicine(medicine)">Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@* <EditForm modal="@medi" OnValidSubmit="EditMedicine" FormName="FormInfo">
+    <label for="">MedicineName</label>
+         <InputText @bind-Value="medi.MedicineName"></InputText>
+    <label for="">MedicineCount</label>
+    <InputNumber @bind-Value="medi.MedicineCount"></InputNumber>
+    <label for="">Medicineprice</label>
+    <InputNumber @bind-Value="medi.MedicinePrice"></InputNumber>
+    <label for="">ExpiryDate</label>
+    <InputDate @bind-Value="medi.ExpiryDate"></InputDate>
+</EditForm> *@
+@Message
+@code
+{
+    string Message = "";
+    public List<MedicineInfo> medicineDetails1 = new List<MedicineInfo>();
+        MedicineInfo medi=new MedicineInfo();
+    protected override void OnInitialized()
+    {
+       medicineDetails1 = Medicineservice.GetMedicine();
+    }
+    @* DeleteMedicine *@
+    public void DeleteMedicine(MedicineInfo medicine)
+    {
+           if(Medicineservice.Delete(medicine))
+           { 
+        
+              Message="DSCM";
+           }
+           StateHasChanged();
+    }
+    public void EditMedicine(MedicineInfo medicine)
+    {
+        if(Medicineservice.Edit(medicine))
+        {
+
+        }
+    }
+
+
+
+}
+    
