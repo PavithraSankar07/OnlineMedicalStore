@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 using OnlineMedicalStore.Models;
 
 namespace OnlineMedicalStore.Service
@@ -37,7 +34,7 @@ namespace OnlineMedicalStore.Service
         public bool NewUser(UserInfo userInfo)
 
         {
-           
+
             var user = users.Find(u => userInfo.Email == u.Email);
 
             if (user == null)
@@ -64,6 +61,11 @@ namespace OnlineMedicalStore.Service
                 return user;
             }
             return default;
+        }
+          public void UpdateWalletBalance(string mailID, int amount)
+        {
+            var user = users.Find(e => e.Email == mailID);
+            user.WalletBalance += amount;
         }
         
     }

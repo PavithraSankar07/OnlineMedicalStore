@@ -2,7 +2,44 @@
 @using Microsoft.AspNetCore.Authorization
 @using OnlineMedicalStore.Models
 @using OnlineMedicalStore.Service
+@using System.Security.Claims
+@inject UserService userServices
 @rendermode InteractiveServer
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @attribute [Authorize (Roles ="Admin, User")]
+
 <h2>Wallet</h2>
+<input type="number" @bind="@amount">
+<button @onclick="Recharge">Submit</button>
+<p> WalletBalance : @WalletBalance</p>
+@code
+{
+    int WalletBalance;
+    int amount;
+
+    protected  override async Task OnAfterRenderAsync(bool firstrender)
+    {
+        if(firstrender)
+        {
+            var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            var emailClaim = authState.User.FindFirst(ClaimTypes.Email);
+             var user = userServices.GetUser(emailClaim.Value);
+             WalletBalance=user.WalletBalance;
+             StateHasChanged();
+        }
+    }
+    public async void Recharge()
+    {
+       
+        if(amount>0)
+        {
+            var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            var emailClaim = authState.User.FindFirst(ClaimTypes.Email);
+            userServices.UpdateWalletBalance(emailClaim.Value,amount);
+            var user1=userServices.GetUser(emailClaim.Value);
+            Console.WriteLine("amount");
+            WalletBalance=user1.WalletBalance;
+            StateHasChanged();
+        }
+    }
+}

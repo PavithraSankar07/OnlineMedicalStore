@@ -19,7 +19,7 @@
 <table >
     <thead>
         <tr>
-            <th>Serial No</th>
+            
             <th>Order ID</th>
             <th>Medicine Name</th>
             <th>User ID</th>
@@ -34,7 +34,7 @@
         @foreach (var order in Orders)
         {
             <tr>
-                <td>@order.SerialNumber</td>
+              
                 <td>@order.OrderID</td>
                 <td>@order.MedicineName</td>
                 <td>@order.UserID</td>
@@ -46,6 +46,7 @@
                     @if (order.PurchaseStatus != "Cancelled")
                     {
                         <button  @onclick="() => CancelOrder(order)">Cancel</button>
+                    
                     }
                     else
                     {
@@ -58,41 +59,44 @@
 </table>
 
 @code {
-    public List<OrderInfo> Orders = new();
+    public static List<OrderInfo> Orders = new();
     public string Message = string.Empty;
 
     protected override void OnInitialized()
     {
-        LoadOrders();
+        @* LoadOrders(); *@
     }
-
-    public void LoadOrders()
+protected override async Task OnAfterRenderAsync(bool firstrender)
+{
+    await Task.Delay(100);
+    if(firstrender)
+    {
+      Orders = OrderService.GetOrders();
+        StateHasChanged();
+    }
+}
+    @* public void LoadOrders()
     {
         Orders = OrderService.GetOrders();
-    }
-
+    } *@
     public void CancelOrder(OrderInfo order)
     {
+        Message="hii";
         if (order.PurchaseStatus == "Cancelled")
         {
             Message = "Order is already cancelled.";
           
             return;
         }
-
-    
-        var user = UserService.users.FirstOrDefault(u =>
-            u.Email == order.UserID || u.Name == order.UserID || u.MobileNumber == order.UserID);
+        var user = UserService.users.Find(u =>
+            u.UserID == order.UserID  );
 
         if (user == null)
         {
             Message = $"User '{order.UserID}' not found.";
-          
             return;
         }
-
-    
-        var medicine = MedicineService.Medicines.FirstOrDefault(m => m.MedicineId == order.MedicineID);
+        var medicine = MedicineService.Medicines.Find(m => m.MedicineId == order.MedicineID);
         if (medicine == null)
         {
             Message = "Medicine not found";
@@ -112,7 +116,8 @@
         Message = $"Order {order.OrderID}  cancelled";
     
 
-        LoadOrders();
+        @* LoadOrders(); *@
         StateHasChanged();
+        
     }
 }
