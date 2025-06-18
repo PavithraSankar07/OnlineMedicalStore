@@ -12,12 +12,15 @@
 @attribute [Authorize (Roles ="Admin, User")]
 
 <h3>Purchase Medicines</h3>
-
+@{
+  var id=1;
+}
 
 
 <table >
     <thead>
         <tr>
+            <th>Serial Number</th>
             <th>Medicine Name</th>
             <th>Count Available</th>
             <th>Price</th>
@@ -29,6 +32,7 @@
         @foreach (var med in Medicines)
         {
             <tr>
+                <td>@(id++)</td>
                 <td>@med.MedicineName</td>
                 <td>@med.MedicineCount</td>
                 <td>@med.MedicinePrice</td>

@@ -2,6 +2,7 @@
 @using Microsoft.AspNetCore.Authorization
 @using OnlineMedicalStore.Models
 @using OnlineMedicalStore.Service
+@rendermode InteractiveServer
 @inject OrderService OrderService
 @inject UserService UserService
 @inject MedicineService MedicineService
@@ -15,12 +16,14 @@
         @Message
     
 }
-
+@{
+    var id=1;
+}
 <table >
     <thead>
         <tr>
             
-            <th>Order ID</th>
+            <th>Serial Number</th>
             <th>Medicine Name</th>
             <th>User ID</th>
             <th>Quantity</th>
@@ -33,11 +36,13 @@
     <tbody>
         @foreach (var order in Orders)
         {
+            var user=UserService.users.Find(u=>u.UserID==order.UserID);
+            
             <tr>
               
-                <td>@order.OrderID</td>
+                <td>@(id++)</td>
                 <td>@order.MedicineName</td>
-                <td>@order.UserID</td>
+                <td>@(user.Name)</td>
                 <td>@order.MedicineCount</td>
                 <td>@order.TotalPrice</td>
                 <td>@order.PurchaseStatus</td>
@@ -64,21 +69,17 @@
 
     protected override void OnInitialized()
     {
-        @* LoadOrders(); *@
+        
     }
 protected override async Task OnAfterRenderAsync(bool firstrender)
 {
-    await Task.Delay(100);
     if(firstrender)
     {
       Orders = OrderService.GetOrders();
         StateHasChanged();
     }
 }
-    @* public void LoadOrders()
-    {
-        Orders = OrderService.GetOrders();
-    } *@
+ 
     public void CancelOrder(OrderInfo order)
     {
         Message="hii";
@@ -116,7 +117,7 @@ protected override async Task OnAfterRenderAsync(bool firstrender)
         Message = $"Order {order.OrderID}  cancelled";
     
 
-        @* LoadOrders(); *@
+       
         StateHasChanged();
         
     }

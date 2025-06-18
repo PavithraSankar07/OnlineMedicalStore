@@ -6,7 +6,9 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @attribute [Authorize (Roles ="Admin")]
 @inject MedicineService Medicineservice
-
+@{
+      var id = 1;
+      }
 <button @onclick="Add">Add</button>
 <table>
     <thead>
@@ -20,11 +22,11 @@
         </tr>
     </thead>
     <tbody>
-
+        
         @foreach (var medicine in medicineDetails1)
         {
             <tr>
-                <td>@medicine.MedicineId</td>
+                <td>@(id++)</td>
                 <td>@medicine.MedicineName</td>
                 <td>@medicine.MedicineCount</td>
                 <td>@medicine.MedicinePrice</td>
@@ -33,8 +35,11 @@
                     <button @onclick="()=>Edit(medicine)">Edit</button>
                     <button @onclick="()=>DeleteMedicine(medicine)">Delete</button>
                 </td>
+              
             </tr>
+            
         }
+        
     </tbody>
 </table>
 @if(form)
