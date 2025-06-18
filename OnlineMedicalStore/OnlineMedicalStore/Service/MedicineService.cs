@@ -17,7 +17,8 @@ namespace OnlineMedicalStore.Service
         MedicineName = "Paracetamol",
         MedicineCount = 50,
         MedicinePrice = 20,
-        ExpiryDate = new DateTime(2024,11,11)
+        ExpiryDate = new DateTime(2024,11,11),
+        MedicineId=1
     },
     new MedicineInfo
     {
@@ -25,7 +26,8 @@ namespace OnlineMedicalStore.Service
         MedicineName = "Amoxicillin",
         MedicineCount = 10,
         MedicinePrice = 5,
-        ExpiryDate = new DateTime(2026,11,11)
+        ExpiryDate = new DateTime(2026,11,11),
+        MedicineId=2
     },
      new MedicineInfo
     {
@@ -33,7 +35,8 @@ namespace OnlineMedicalStore.Service
         MedicineName = "Calpol",
         MedicineCount = 30,
         MedicinePrice = 45,
-        ExpiryDate = new DateTime(2026,11,11)
+        ExpiryDate = new DateTime(2026,11,11),
+        MedicineId=3
     },
      new MedicineInfo
     {
@@ -41,7 +44,8 @@ namespace OnlineMedicalStore.Service
         MedicineName = "Gelucil",
         MedicineCount = 3,
         MedicinePrice = 40,
-        ExpiryDate = new DateTime(2025,06,05)
+        ExpiryDate = new DateTime(2025,06,05),
+        MedicineId=4
     },
      new MedicineInfo
     {
@@ -49,7 +53,8 @@ namespace OnlineMedicalStore.Service
         MedicineName = "Metrogel",
         MedicineCount = 5,
         MedicinePrice = 50,
-        ExpiryDate = new DateTime(2025,08,10)
+        ExpiryDate = new DateTime(2025,08,10),
+        MedicineId=5
     },
      new MedicineInfo
     {
@@ -57,7 +62,8 @@ namespace OnlineMedicalStore.Service
         MedicineName = "Povidin Iodin",
         MedicineCount = 10,
         MedicinePrice = 50,
-        ExpiryDate = new DateTime(2025,11,27)
+        ExpiryDate = new DateTime(2025,11,27),
+        MedicineId=6
     },
      new MedicineInfo
     {
@@ -65,7 +71,8 @@ namespace OnlineMedicalStore.Service
         MedicineName = "Dolo",
         MedicineCount = 1,
         MedicinePrice = 35,
-        ExpiryDate = new DateTime(2025,11,30)
+        ExpiryDate = new DateTime(2025,11,30),
+        MedicineId=7
     },
 };
 
@@ -76,10 +83,20 @@ namespace OnlineMedicalStore.Service
             return Medicines;
         }
         // Add
+        public static int id = 1;
         public bool Add(MedicineInfo medicineInfo)
         {
             if (Medicines != null)
             {
+
+                if (Medicines.Count == 0)
+                {
+                    medicineInfo.MedicineId = 1;
+                }
+                else
+                {
+                    medicineInfo.MedicineId = Medicines[Medicines.Count - 1].MedicineId + 1;
+               }
                 Medicines.Add(medicineInfo);
                 return true;
             }
@@ -91,14 +108,13 @@ namespace OnlineMedicalStore.Service
             MedicineInfo medicine = Medicines.Find(u => u.MedicineId == medicineInfo.MedicineId);
             if (medicine != null)
             {
-                medicineInfo = new MedicineInfo()
-                {
-                    MedicineName = medicineInfo.MedicineName,
-                    MedicineCount = medicineInfo.MedicineCount,
-                    MedicinePrice = medicineInfo.MedicinePrice,
-                    ExpiryDate = medicineInfo.ExpiryDate
 
-                };
+                medicine.MedicineName = medicineInfo.MedicineName;
+                medicine.MedicineCount = medicineInfo.MedicineCount;
+                medicine.MedicinePrice = medicineInfo.MedicinePrice;
+                medicine.ExpiryDate = medicineInfo.ExpiryDate;
+
+
                 return true;
             }
             return false;

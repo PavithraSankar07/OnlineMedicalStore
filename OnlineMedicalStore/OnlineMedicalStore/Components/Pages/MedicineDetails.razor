@@ -6,6 +6,8 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @attribute [Authorize (Roles ="Admin")]
 @inject MedicineService Medicineservice
+
+<button @onclick="Add">Add</button>
 <table>
     <thead>
         <tr>
@@ -22,21 +24,24 @@
         @foreach (var medicine in medicineDetails1)
         {
             <tr>
-                <td>1</td>
+                <td>@medicine.MedicineId</td>
                 <td>@medicine.MedicineName</td>
                 <td>@medicine.MedicineCount</td>
                 <td>@medicine.MedicinePrice</td>
                 <td>@medicine.ExpiryDate</td>
                 <td>
-                    <button @onclick="()=>EditMedicine(medicine)">Edit</button>
+                    <button @onclick="()=>Edit(medicine)">Edit</button>
                     <button @onclick="()=>DeleteMedicine(medicine)">Delete</button>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+@if(form)
+{
 
-@* <EditForm modal="@medi" OnValidSubmit="EditMedicine" FormName="FormInfo">
+
+<EditForm Model="@medi" OnValidSubmit="EditMedicine" FormName="FormInfo">
     <label for="">MedicineName</label>
          <InputText @bind-Value="medi.MedicineName"></InputText>
     <label for="">MedicineCount</label>
@@ -45,13 +50,18 @@
     <InputNumber @bind-Value="medi.MedicinePrice"></InputNumber>
     <label for="">ExpiryDate</label>
     <InputDate @bind-Value="medi.ExpiryDate"></InputDate>
-</EditForm> *@
+    <button type="submit">@((formEdit)? "Update":"Add")</button>
+
+</EditForm>
+}
 @Message
 @code
 {
     string Message = "";
     public List<MedicineInfo> medicineDetails1 = new List<MedicineInfo>();
         MedicineInfo medi=new MedicineInfo();
+        bool form=false;
+        bool formEdit=false;
     protected override void OnInitialized()
     {
        medicineDetails1 = Medicineservice.GetMedicine();
@@ -66,12 +76,44 @@
            }
            StateHasChanged();
     }
-    public void EditMedicine(MedicineInfo medicine)
+    @* Add medicine *@
+    public void Add()
     {
-        if(Medicineservice.Edit(medicine))
+        form=true;
+        formEdit=false;
+    }
+    public void Edit(MedicineInfo medicine)
+    {
+         medi = new MedicineInfo
+        {
+            MedicineId = medicine.MedicineId,
+            MedicineName = medicine.MedicineName,
+            MedicineCount = medicine.MedicineCount,
+            MedicinePrice = medicine.MedicinePrice,
+            ExpiryDate = medicine.ExpiryDate
+        };
+        form=true;
+        formEdit=true;
+    }
+    public void EditMedicine()
+    {
+        if(formEdit)
         {
 
+        if(Medicineservice.Edit(medi))
+        {
+          Message="SCEM";
         }
+        }
+        else
+        {
+            if(Medicineservice.Add(medi))
+            {
+                Message="SCAM";
+            }
+        }
+        form=false;
+        StateHasChanged();
     }
 
 

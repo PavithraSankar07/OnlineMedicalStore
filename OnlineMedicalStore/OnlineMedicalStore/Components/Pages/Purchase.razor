@@ -1,10 +1,179 @@
 @page "/purchase"
-
 @using Microsoft.AspNetCore.Authorization
 @using OnlineMedicalStore.Models
 @using OnlineMedicalStore.Service
+@using System.Security.Claims
 @rendermode InteractiveServer
+
+@inject MedicineService MedicineService
+@inject UserService UserService
+@inject OrderService OrderService
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @attribute [Authorize (Roles ="Admin, User")]
 
-<h2>Hello</h2>
+<h3>Purchase Medicines</h3>
+
+
+
+<table >
+    <thead>
+        <tr>
+            <th>Medicine Name</th>
+            <th>Count Available</th>
+            <th>Price</th>
+            <th>Expiry Date</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var med in Medicines)
+        {
+            <tr>
+                <td>@med.MedicineName</td>
+                <td>@med.MedicineCount</td>
+                <td>@med.MedicinePrice</td>
+                <td>@med.ExpiryDate.ToShortDateString()</td>
+                <td>
+                    <button @onclick="() => Form(med)">Buy</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (ShowForm)
+{
+    <div>
+        <h5>Buy @SelectedMedicine.MedicineName</h5>
+        <EditForm Model="Medicines" OnValidSubmit="Submit">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div >
+                <label>Quantity</label>
+                <InputNumber  @bind-Value="PurchaseQuantity"  />
+            </div>
+
+            <button type="submit" >Confirm Purchase</button>
+            <button type="button" @onclick="CancelPurchase">Cancel</button>
+        </EditForm>
+    </div>
+}
+@if (!string.IsNullOrEmpty(Message))
+{
+    <div >
+        @Message
+    </div>
+}
+@code {
+    public List<MedicineInfo> Medicines = new();
+    public MedicineInfo SelectedMedicine;
+    public bool ShowForm = false;
+    public int PurchaseQuantity = 1;  
+
+    public string Message = "";
+  
+
+    dynamic CurrentUser;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Medicines = MedicineService.GetMedicine();
+
+       var authstate = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+       var mail=authstate.User.FindFirst(ClaimTypes.Email);
+       CurrentUser=UserService.GetUser(mail.Value);
+
+    }
+
+    private void Form(MedicineInfo medicine)
+    {
+        SelectedMedicine = medicine;
+    
+        PurchaseQuantity = 1;  
+        Message = "";
+        ShowForm = true;
+    }
+    private void CancelPurchase()
+    {
+        ShowForm = false;
+        Message = "";
+    }
+
+    private void Submit()
+    {
+        Message = "";
+        
+
+        if (SelectedMedicine == null)
+        {
+            Message = "No medicine selected.";
+            return;
+        }
+
+        if (PurchaseQuantity <= 0)
+        {
+            Message = "alteast select one ";
+            return;
+        }
+
+        if (PurchaseQuantity > SelectedMedicine.MedicineCount)
+        {
+            Message = $"Only {SelectedMedicine.MedicineCount} available.";
+            return;
+        }
+        if (SelectedMedicine.ExpiryDate.Date < DateTime.Today)
+        {
+            Message = " medicine is expired.";
+            return;
+        }
+        var totalCost = SelectedMedicine.MedicinePrice * PurchaseQuantity;
+
+        if (CurrentUser == null)
+        {
+            Message = "User not found";
+            return;
+        }
+
+        if (CurrentUser.WalletBalance < totalCost)
+        {
+            Message = "Insufficient balanxe";
+            return;
+        }
+
+  
+        SelectedMedicine.MedicineCount -= PurchaseQuantity;
+        CurrentUser.WalletBalance -= totalCost;
+
+     
+        var newOrder = new OrderInfo
+        {
+            MedicineID = SelectedMedicine.MedicineId,
+            MedicineName = SelectedMedicine.MedicineName,
+            UserID = CurrentUser.UserID,
+            MedicineCount = PurchaseQuantity,
+            TotalPrice = totalCost,
+            PurchaseStatus = "Purchase",
+            OrderDate = DateTime.Now
+        };
+
+        bool orderAdded = OrderService.AddOrder(newOrder);
+
+        if (orderAdded)
+        {
+            Message = $"Purchase   {PurchaseQuantity} {SelectedMedicine.MedicineName}.";
+           
+            ShowForm = false;
+            Medicines = MedicineService.GetMedicine(); 
+        }
+        else
+        {
+            Message = $"floid";
+       
+
+        
+            SelectedMedicine.MedicineCount += PurchaseQuantity;
+            CurrentUser.WalletBalance += totalCost;
+        }
+    }
+}

@@ -2,8 +2,117 @@
 @using Microsoft.AspNetCore.Authorization
 @using OnlineMedicalStore.Models
 @using OnlineMedicalStore.Service
-@rendermode InteractiveServer
-@inject AuthenticationStateProvider AuthenticationStateProvider
-@attribute [Authorize (Roles ="Admin")]
+@inject OrderService OrderService
+@inject UserService UserService
+@inject MedicineService MedicineService
+@attribute [Authorize(Roles = "Admin")]
 
-<h2>Byee</h2>
+<h2>Order History</h2>
+
+@if (!string.IsNullOrEmpty(Message))
+{
+    
+        @Message
+    
+}
+
+<table >
+    <thead>
+        <tr>
+            <th>Serial No</th>
+            <th>Order ID</th>
+            <th>Medicine Name</th>
+            <th>User ID</th>
+            <th>Quantity</th>
+            <th>Total Price</th>
+            <th>Status</th>
+            <th>Order Date</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Orders)
+        {
+            <tr>
+                <td>@order.SerialNumber</td>
+                <td>@order.OrderID</td>
+                <td>@order.MedicineName</td>
+                <td>@order.UserID</td>
+                <td>@order.MedicineCount</td>
+                <td>@order.TotalPrice</td>
+                <td>@order.PurchaseStatus</td>
+                <td>@order.OrderDate.ToShortDateString()</td>
+                <td>
+                    @if (order.PurchaseStatus != "Cancelled")
+                    {
+                        <button  @onclick="() => CancelOrder(order)">Cancel</button>
+                    }
+                    else
+                    {
+                        <span >Cancelled</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    public List<OrderInfo> Orders = new();
+    public string Message = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        LoadOrders();
+    }
+
+    public void LoadOrders()
+    {
+        Orders = OrderService.GetOrders();
+    }
+
+    public void CancelOrder(OrderInfo order)
+    {
+        if (order.PurchaseStatus == "Cancelled")
+        {
+            Message = "Order is already cancelled.";
+          
+            return;
+        }
+
+    
+        var user = UserService.users.FirstOrDefault(u =>
+            u.Email == order.UserID || u.Name == order.UserID || u.MobileNumber == order.UserID);
+
+        if (user == null)
+        {
+            Message = $"User '{order.UserID}' not found.";
+          
+            return;
+        }
+
+    
+        var medicine = MedicineService.Medicines.FirstOrDefault(m => m.MedicineId == order.MedicineID);
+        if (medicine == null)
+        {
+            Message = "Medicine not found";
+           
+            return;
+        }
+
+
+        user.WalletBalance += order.TotalPrice;
+
+     
+        medicine.MedicineCount += order.MedicineCount;
+
+        
+        order.PurchaseStatus = "Cancelled";
+
+        Message = $"Order {order.OrderID}  cancelled";
+    
+
+        LoadOrders();
+        StateHasChanged();
+    }
+}

@@ -9,7 +9,7 @@ namespace OnlineMedicalStore.Service
     public class UserService
     {
         // Create the list and add it default data
-        public static List<UserInfo> users  = new()
+        public static List<UserInfo> users = new()
         {
                new UserInfo
                {
@@ -37,16 +37,33 @@ namespace OnlineMedicalStore.Service
         public bool NewUser(UserInfo userInfo)
 
         {
-            if (userInfo == null)  return false;
+           
             var user = users.Find(u => userInfo.Email == u.Email);
 
             if (user == null)
             {
+                if (users.Count != 0)
+                {
+                    userInfo.UserID = users[users.Count - 1].UserID + 1;
+                }
+                else
+                {
+                    userInfo.UserID = 1;
+                }
                 userInfo.Role = "User";
                 users.Add(userInfo);
                 return true;
             }
             return false;
+        }
+        public UserInfo GetUser(string mailid)
+        {
+            var user = users.Find(u => u.Email == mailid);
+            if (user != null)
+            {
+                return user;
+            }
+            return default;
         }
         
     }

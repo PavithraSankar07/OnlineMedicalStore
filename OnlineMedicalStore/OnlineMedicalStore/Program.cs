@@ -20,6 +20,7 @@ builder.Services.AddControllers();
 // Need to understand
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<MedicineService>();
+builder.Services.AddScoped<OrderService>();
 builder.Services.AddScoped(hc => new HttpClient { BaseAddress = new Uri("http://localhost:5234") });
 builder.Services.AddAuthentication("Cookies").AddCookie(Options
 =>

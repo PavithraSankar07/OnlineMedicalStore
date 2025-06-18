@@ -9,7 +9,7 @@ namespace OnlineMedicalStore.Models
     {
         
      
-        public string MedicineId { get; set; }
+        public int MedicineId { get; set; }
         public string MedicineName { get; set; }
         public int MedicineCount { get; set; }
         public int MedicinePrice { get; set; }
