@@ -67,7 +67,6 @@ namespace OnlineMedicalStore.Service
     },
      new MedicineInfo
     {
-
         MedicineName = "Dolo",
         MedicineCount = 1,
         MedicinePrice = 35,

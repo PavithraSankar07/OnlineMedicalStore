@@ -5,7 +5,24 @@
 @attribute [Authorize(Roles = "Admin,User")]
 @inject AuthenticationStateProvider AuthenticationStateProvider
 
-<h1>@username</h1>
+<div class="background"></div>
+<div class="whole">
+    <h2 class="name">Welcome, @username</h2>
+
+    <div class="main">
+        <img src="Images/store.jpg" class="left-image" alt="Store Image" />
+        
+        <div class="right">
+            <h3>We care for you and health</h3>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus omnis iure id minima itaque excepturi temporibus at fuga nostrum hic delectus magni tempore, repellat eos sunt dolorem accusantium dolorum consequatur!</p>
+            
+            <div class="images">
+                <img src="Images/shutterstock_1679550778-scaled.jpg" class="circle-image" alt="Circle Image" />
+                <img src="Images/OIP.jpg" class="normal-image" alt="Second Image" />
+            </div>
+        </div>
+    </div>
+</div>
 
 @code
 {

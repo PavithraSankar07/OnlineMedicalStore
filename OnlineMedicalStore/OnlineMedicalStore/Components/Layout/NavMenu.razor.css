@@ -103,3 +103,23 @@
         overflow-y: auto;
     }
 }
+.logout {
+    position: fixed;
+    top: 20px;
+    right: 30px;
+    z-index: 1000; /* ensures it stays above other elements */
+}
+
+.logout button {
+    background:#8b008b;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 18px;
+    font-size: 1rem;
+    cursor: pointer;
+
+
+}
+
+

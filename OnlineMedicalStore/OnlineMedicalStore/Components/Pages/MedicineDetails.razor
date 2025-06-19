@@ -9,8 +9,8 @@
 @{
       var id = 1;
       }
-<button @onclick="Add">Add</button>
-<table>
+
+<table class="medicine-table">
     <thead>
         <tr>
             <th>Serial Number</th>
@@ -30,7 +30,7 @@
                 <td>@medicine.MedicineName</td>
                 <td>@medicine.MedicineCount</td>
                 <td>@medicine.MedicinePrice</td>
-                <td>@medicine.ExpiryDate</td>
+                <td>@medicine.ExpiryDate.ToShortDateString()</td>
                 <td>
                     <button @onclick="()=>Edit(medicine)">Edit</button>
                     <button @onclick="()=>DeleteMedicine(medicine)">Delete</button>
@@ -42,11 +42,13 @@
         
     </tbody>
 </table>
+<button class="addbutton" @onclick="Add">Add</button>
 @if(form)
 {
 
 
 <EditForm Model="@medi" OnValidSubmit="EditMedicine" FormName="FormInfo">
+    <div class="form">
     <label for="">MedicineName</label>
          <InputText @bind-Value="medi.MedicineName"></InputText>
     <label for="">MedicineCount</label>
@@ -55,8 +57,8 @@
     <InputNumber @bind-Value="medi.MedicinePrice"></InputNumber>
     <label for="">ExpiryDate</label>
     <InputDate @bind-Value="medi.ExpiryDate"></InputDate>
-    <button type="submit">@((formEdit)? "Update":"Add")</button>
-
+    <button class="addbutton1" type="submit">@((formEdit)? "Update":"Add")</button>
+</div>
 </EditForm>
 }
 @Message

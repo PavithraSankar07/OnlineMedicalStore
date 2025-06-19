@@ -8,7 +8,7 @@
 @inject MedicineService MedicineService
 @attribute [Authorize(Roles = "Admin")]
 
-<h2>Order History</h2>
+
 
 @if (!string.IsNullOrEmpty(Message))
 {
@@ -19,7 +19,7 @@
 @{
     var id=1;
 }
-<table >
+<table class="medicine-table">
     <thead>
         <tr>
             

@@ -49,3 +49,283 @@ h1:focus {
 .darker-border-checkbox.form-check-input {
     border-color: #929292;
 }
+/* --------------------------My CSS----------------------------------------------------- */
+/* Auth CSS */
+
+.login,
+.signup {
+  background-color: hsl(300, 81%, 81%);
+
+  padding: 1.5rem;
+  max-width: 400px;
+  margin: 2rem auto;
+
+}
+.login,
+.signup{
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.login input,
+.signup input,
+input {
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 1rem;
+  width: 100%;
+  border: 0.5px solid #ddd;
+}
+h5
+{
+    color: #8b008b;
+}
+button {
+  padding: 10px;
+  font-size: 1rem;
+  background-color: #8b008b;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.whole
+{
+    display: flex;
+  justify-content: center;
+  gap: 9px;
+  margin-bottom: 1rem;
+  margin-top: 10%;
+}
+.whole button
+{
+     background-color: #8b008b;
+  color: white;
+}
+
+/* Home */
+
+.name
+{
+  text-align: center;
+    margin-bottom: 1.5rem;
+    color: #333;
+}
+.main
+{
+display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+}
+.left-image {
+    max-width: 250px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  .right
+  {
+    flex: 1;
+    color: #333;
+  }
+   .images {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .circle-image {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ccc;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+
+  .normal-image {
+    max-height: 80px;
+    
+    object-fit: contain;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+/* table */
+
+
+ .medicine-table th,
+.medicine-table td
+{
+    border: 1px solid #dddddd;
+    text-align: left;
+    border: 1px solid black;
+    padding: 10px;
+}
+
+.addbutton
+{
+      background-color: blue;
+      border: none;
+}
+
+.addbutton {
+    background-color: #8b008b;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 45%;
+    font-size: 16px;
+    
+}
+
+.medicine-table th {
+    background-color: #8b008b;
+    color: white;
+    font-weight: bold;
+}
+
+.medicine-table button {
+    background-color: #8b008b;;
+    color: white;
+    padding: 6px 12px;
+    margin-right: 5px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 14px;
+    
+}
+.medicine-table button:last-child {
+    background-color: #f44336;
+}
+.medicine-table button:last-child {
+    background-color: #8b008b;
+}
+
+h3
+{
+    text-align: center;
+    margin-top: 1%;
+}
+
+.medicine-table {
+    width: 90%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    margin: 80px 80px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.medicine-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+/* form */
+.form input
+{
+ padding: 10px;
+  border-radius: 5px;
+  font-size: 1rem;
+  width: 100%;
+}
+
+
+.form {
+    max-width: 350px;
+    margin: 40px auto;
+    padding: 24px 20px 18px 20px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.form label {
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: #8b008b;
+    letter-spacing: 0.5px;
+}
+
+.form input
+ {
+    padding: 10px 12px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 1rem;
+    background: #fff;
+    margin-bottom: 6px;
+    transition: border-color 0.2s;
+}
+
+
+
+.addbutton1 {
+    background: #8b008b;
+    color: #fff;
+   
+    border-radius: 6px;
+    padding: 10px 0;
+
+    cursor: pointer;
+    margin-top: 10px;
+    
+}
+
+/* wallet reacharge */
+.wallet {
+    max-width: 320px;
+    margin: 20% 40% ;
+    padding: 24px 20px 18px 20px;
+    background: hwb(300 94% 3%);
+    border-radius: 10px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+}
+
+.wallet h2 {
+    color: #8b008b;
+    margin-bottom: 8px;
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+}
+
+.wallet input {
+    padding: 10px 12px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 1rem;
+    width: 100%;
+    background: #fff;
+    transition: border-color 0.2s;
+}
+
+
+
+.wallet button {
+    background: #8b008b;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 0;
+    font-size: 1.05rem;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+   
+}
+
+
+
+.wallet p {
+    margin-top: 10px;
+    font-size: 1.1rem;
+    color: #222;
+    font-weight: 500;
+}

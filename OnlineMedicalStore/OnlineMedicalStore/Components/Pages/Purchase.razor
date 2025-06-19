@@ -11,13 +11,13 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @attribute [Authorize (Roles ="Admin, User")]
 
-<h3>Purchase Medicines</h3>
+
 @{
   var id=1;
 }
 
 
-<table >
+<table class="medicine-table">
     <thead>
         <tr>
             <th>Serial Number</th>
@@ -38,7 +38,7 @@
                 <td>@med.MedicinePrice</td>
                 <td>@med.ExpiryDate.ToShortDateString()</td>
                 <td>
-                    <button @onclick="() => Form(med)">Buy</button>
+                    <button class="addbutton1"  @onclick="() => Form(med)">Buy</button>
                 </td>
             </tr>
         }
@@ -47,7 +47,7 @@
 
 @if (ShowForm)
 {
-    <div>
+    <div class="form">
         <h5>Buy @SelectedMedicine.MedicineName</h5>
         <EditForm Model="Medicines" OnValidSubmit="Submit">
             <DataAnnotationsValidator />
@@ -58,7 +58,7 @@
                 <InputNumber  @bind-Value="PurchaseQuantity"  />
             </div>
 
-            <button type="submit" >Confirm Purchase</button>
+            <button type="submit" class="addbutton1" >Confirm</button>
             <button type="button" @onclick="CancelPurchase">Cancel</button>
         </EditForm>
     </div>

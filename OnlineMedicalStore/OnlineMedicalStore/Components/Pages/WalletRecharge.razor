@@ -8,10 +8,12 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @attribute [Authorize (Roles ="Admin, User")]
 
-<h2>Wallet</h2>
+<div class="wallet">
+<h2>Wallet Recharge</h2>
 <input type="number" @bind="@amount">
 <button @onclick="Recharge">Submit</button>
 <p> WalletBalance : @WalletBalance</p>
+</div>
 @code
 {
     int WalletBalance;
