@@ -62,8 +62,24 @@
         }
     </tbody>
 </table>
+ @if (ShowMessage)
+        {
+            <div class="popup">
+                <h1>@Message</h1>
+                <button @onclick="DisableMessage">Ok</button>
+            </div>
+        }
+         
 
 @code {
+    bool ShowMessage=false;
+    private void DisableMessage()
+    {
+        ShowMessage = false;
+        Message = "";
+        
+        StateHasChanged();
+    }
     public static List<OrderInfo> Orders = new();
     public string Message = string.Empty;
 

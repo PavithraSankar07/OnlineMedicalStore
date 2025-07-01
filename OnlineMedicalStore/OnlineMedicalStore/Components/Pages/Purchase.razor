@@ -58,7 +58,7 @@
                 <InputNumber  @bind-Value="PurchaseQuantity"  />
             </div>
 
-            <button type="submit" class="addbutton1" >Confirm</button>
+            <button type="submit" class="addbutton1">Confirm</button>
             <button type="button" @onclick="CancelPurchase">Cancel</button>
         </EditForm>
     </div>
@@ -106,6 +106,7 @@
 
     private void Submit()
     {
+        Console.WriteLine("method");
         Message = "";
         
 
@@ -169,13 +170,12 @@
            
             ShowForm = false;
             Medicines = MedicineService.GetMedicine(); 
+            Console.WriteLine("s");
         }
         else
         {
             Message = $"floid";
        
-
-        
             SelectedMedicine.MedicineCount += PurchaseQuantity;
             CurrentUser.WalletBalance += totalCost;
         }

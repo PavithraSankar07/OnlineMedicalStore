@@ -119,8 +119,6 @@ display: flex;
 }
 .left-image {
     max-width: 250px;
-    height: auto;
-    object-fit: cover;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   }
@@ -328,4 +326,47 @@ h3
     font-size: 1.1rem;
     color: #222;
     font-weight: 500;
+}
+/*  */
+
+.popup {
+    width: 400px;
+    border-radius: 6px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 10px 30px 30px;
+    color: rgba(255, 255, 255, 0.881);
+}
+
+.popup h1 {
+    font-size: 22px;
+    font-weight: 500;
+    margin: 30px 0 10px;
+    text-align: center;
+}
+
+.popup input {
+    width: 100%;
+    border-radius: 4px;
+    border: 0;
+}
+
+.popup label {
+    text-align: left;
+    padding: 3px;
+}
+
+.popup button {
+    width: 100%;
+    margin-top: 20px;
+    padding: 10px 0;
+    background: #3c5077;
+    color: rgba(255, 255, 255, 0.901);
+    border: 0;
+    font-size: 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
