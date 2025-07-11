@@ -10,12 +10,6 @@
 
 
 
-@if (!string.IsNullOrEmpty(Message))
-{
-    
-        @Message
-    
-}
 @{
     var id=1;
 }
@@ -66,14 +60,14 @@
         {
             <div class="popup">
                 <h1>@Message</h1>
-                <button @onclick="DisableMessage">Ok</button>
+                <button @onclick="DisplayMessage">Ok</button>
             </div>
         }
          
 
 @code {
     bool ShowMessage=false;
-    private void DisableMessage()
+    private void DisplayMessage()
     {
         ShowMessage = false;
         Message = "";
@@ -98,11 +92,11 @@ protected override async Task OnAfterRenderAsync(bool firstrender)
  
     public void CancelOrder(OrderInfo order)
     {
-        Message="hii";
+   
         if (order.PurchaseStatus == "Cancelled")
         {
             Message = "Order is already cancelled.";
-          
+          ShowMessage=true;
             return;
         }
         var user = UserService.users.Find(u =>
@@ -111,12 +105,14 @@ protected override async Task OnAfterRenderAsync(bool firstrender)
         if (user == null)
         {
             Message = $"User '{order.UserID}' not found.";
+            ShowMessage=true;
             return;
         }
         var medicine = MedicineService.Medicines.Find(m => m.MedicineId == order.MedicineID);
         if (medicine == null)
         {
             Message = "Medicine not found";
+            ShowMessage=true;
            
             return;
         }
@@ -131,6 +127,7 @@ protected override async Task OnAfterRenderAsync(bool firstrender)
         order.PurchaseStatus = "Cancelled";
 
         Message = $"Order {order.OrderID}  cancelled";
+        ShowMessage=true;
     
 
        

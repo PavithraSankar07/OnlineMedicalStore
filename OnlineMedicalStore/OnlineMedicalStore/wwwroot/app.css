@@ -108,18 +108,20 @@ button {
 .name
 {
   text-align: center;
-    margin-bottom: 1.5rem;
+    margin-top: 5%;
     color: #333;
 }
 .main
 {
 display: flex;
     align-items: flex-start;
-    gap: 1.5rem;
+    gap: 8rem;
 }
 .left-image {
     max-width: 250px;
     border-radius: 8px;
+    height: 200%;
+    width: 60%;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   }
   .right
@@ -130,8 +132,8 @@ display: flex;
    .images {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    margin-top: 1rem;
+    gap: 2rem;
+    margin-top: 2rem;
   }
 
   .circle-image {
@@ -337,7 +339,8 @@ h3
     left: 50%;
     transform: translate(-50%, -50%);
     padding: 10px 30px 30px;
-    color: rgba(255, 255, 255, 0.881);
+    color: #0b0909e1;
+    background-color:hsl(300, 81%, 81%);
 }
 
 .popup h1 {
@@ -362,7 +365,7 @@ h3
     width: 100%;
     margin-top: 20px;
     padding: 10px 0;
-    background: #3c5077;
+    background:#8b008b;
     color: rgba(255, 255, 255, 0.901);
     border: 0;
     font-size: 14px;

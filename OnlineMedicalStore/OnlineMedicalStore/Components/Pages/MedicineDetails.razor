@@ -65,19 +65,19 @@
 {
     <div class="popup">
         <h1>@Message</h1>
-        <button @onclick="DisableMessage">Ok</button>
+        <button @onclick="DisplayMessage">Ok</button>
     </div>
 }
 
 @code
 {
-    string Message = "";
+    string Message;
     public List<MedicineInfo> medicineDetails1 = new List<MedicineInfo>();
     MedicineInfo medi = new MedicineInfo();
     bool form = false;
     bool formEdit = false;
     bool ShowMessage = false;
-    private void DisableMessage()
+  public void DisplayMessage()
     {
         ShowMessage = false;
         Message = "";

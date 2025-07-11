@@ -10,23 +10,25 @@
 @inject NavigationManager Navigation
 @* Create the switching tab *@
 <div class="whole">
-@* <div class="heading"> *@
+    @* <div class="heading"> *@
     <button @onclick="LoginShow">Login</button>
     <button @onclick="SignUpShow">SignUp</button>
-@* </div> *@
+    @* </div> *@
 </div>
-@if(show)
+@if (show)
 {
-@* Login *@
-<EditForm Model="@LoginInfo" OnValidSubmit="Login" FormName="LoginForm">
-    
-<div class="login">
-       
-        <InputText @bind-Value="LoginInfo.Email" placeholder="Email"></InputText>
-        <InputText @bind-Value="LoginInfo.Password" placeholder="Password"></InputText>
-        <button type="submit">Login</button>
-   </div>
-</EditForm>
+    @* Login *@
+    <EditForm Model="@LoginInfo" OnValidSubmit="Login" FormName="LoginForm">
+<DataAnnotationsValidator/>
+        <div class="login">
+
+            <InputText @bind-Value="LoginInfo.Email" placeholder="Email"></InputText>
+            <ValidationMessage For="@(()=>LoginInfo.Email)"></ValidationMessage>
+            <InputText @bind-Value="LoginInfo.Password" placeholder="Password"></InputText>
+            <ValidationMessage For="@(()=>LoginInfo.Password)"></ValidationMessage>
+            <button type="submit">Login</button>
+        </div>
+    </EditForm>
 }
 
 @* <pre>@System.Text.Json.JsonSerializer.Serialize(LoginInfo)</pre> *@
@@ -35,52 +37,72 @@ else
 
 
 
-@* SignUp *@
-<EditForm Model="@SignUpInfo" OnValidSubmit="SignUp" FormName="SignUp">
-    <div class="signup">
-      
-       
-        <InputText @bind-Value="SignUpInfo.Name" placeholder="Name"></InputText>
-        <InputText @bind-Value="SignUpInfo.Email" placeholder="Email"></InputText>
-        <InputText @bind-Value="SignUpInfo.MobileNumber" placeholder="Mobile"></InputText>
-        <InputText @bind-Value="SignUpInfo.Password" placeholder="Password"></InputText>
-        <InputNumber @bind-Value="SignUpInfo.WalletBalance" placeholder="Walletbalnace"></InputNumber>
-        <button type="submit">SignUp</button>
-    </div>
-</EditForm>
+    @* SignUp *@
+    <EditForm Model="@SignUpInfo" OnValidSubmit="SignUp" FormName="SignUp">
+        <DataAnnotationsValidator/>
+        <div class="signup">
+
+            <InputText @bind-Value="SignUpInfo.Name" placeholder="Name"></InputText>
+            <ValidationMessage For="@(()=>SignUpInfo.Name)"/>
+            <InputText @bind-Value="SignUpInfo.Email" placeholder="Email"></InputText>
+            <ValidationMessage For="@(()=>SignUpInfo.Email)"></ValidationMessage>
+            <InputText @bind-Value="SignUpInfo.MobileNumber" placeholder="Mobile"></InputText>
+            <ValidationMessage For="@(()=>SignUpInfo.MobileNumber)"></ValidationMessage>
+            <InputText @bind-Value="SignUpInfo.Password" placeholder="Password"></InputText>
+            <ValidationMessage For="@(()=>SignUpInfo.Password)"></ValidationMessage>
+            <InputNumber @bind-Value="SignUpInfo.WalletBalance" placeholder="Walletbalance"></InputNumber>
+            <ValidationMessage For="@(()=>SignUpInfo.WalletBalance)"></ValidationMessage>
+            <button type="submit">SignUp</button>
+        </div>
+    </EditForm>
 
 }
 @* <pre>@System.Text.Json.JsonSerializer.Serialize(SignUpInfo)</pre> *@
 
-@if (!string.IsNullOrEmpty(Message))
+@* @if (!string.IsNullOrEmpty(Message))
 {
     <p>@Message</p>
+} *@
+
+@if (ShowMessage)
+{
+    <div class="popup">
+        <h1>@Message</h1>
+        <button @onclick="DisplayMessage">OK</button>
+    </div>
 }
 @* ------------------------------------------------------------------------------------------------ *@
 @code
 {
-    public bool show=false;
+    public void DisplayMessage()
+    {
+        ShowMessage = false;
+        Message = "";
+        StateHasChanged();
+    }
+    bool ShowMessage = false;
+    public bool show = false;
     public void LoginShow()
     {
-      show=true;
+        show = true;
     }
     public void SignUpShow()
     {
-       show=false;
+        show = false;
     }
-    protected async override Task OnInitializedAsync() 
-    { 
+    protected async override Task OnInitializedAsync()
+    {
         var authState = await authenticationState.GetAuthenticationStateAsync();
-        if(authState.User.Identity.IsAuthenticated)
+        if (authState.User.Identity.IsAuthenticated)
         {
             Navigation.NavigateTo("/home", true);
         }
     }
     string Message = "";
- 
+
     public UserInfo SignUpInfo = new();
     public LoginInfo LoginInfo = new();
-   
+
     @* SignUp *@
     public void SignUp()
     {
@@ -88,21 +110,22 @@ else
 
         {
             Message = "Signup Success!";
-
+           ShowMessage=true;
             @* Console.WriteLine(SignUpInfo.Email); *@
             @* SignUpInfo = new UserInfo(); *@
         }
         else
         {
             Message = "User already exists!";
+            ShowMessage=true;
         }
     }
     @* Login *@
     private async Task Login()
     {
-        await JSRuntime.InvokeVoidAsync("loginUser",LoginInfo.Email,LoginInfo.Password);
-      
+        await JSRuntime.InvokeVoidAsync("loginUser", LoginInfo.Email, LoginInfo.Password);
 
+        
     }
 
 

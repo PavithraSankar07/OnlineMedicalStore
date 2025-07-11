@@ -11,10 +11,13 @@
         <div class="top-row ps-3 navbar navbar-dark">
             <div class="container-fluid">
                 <a class="navbar-brand" href="">OnlineMedicalStore</a>
+                <div class="username">
+                    <select @onchange="@Logout">
+                        <option value="" disabled selected>@name</option>
+                        <option class="logoutbtn">Logout</option>
+                    </select>
+                </div>
             </div>
-           <div class="logout">
-            <button @onclick="Logout">Logout</button>
-        </div>
         </div>
     </Authorized>
 </AuthorizeView>
@@ -87,15 +90,15 @@
             if (authstate.User.Identity.Name != null)
             {
                 var user = authstate.User;
-               
+
                 name = user.Identity.Name;
                 StateHasChanged();
             }
 
         }
     }
-     private void Logout()
+    private void Logout()
     {
-        Navigation.NavigateTo("/api/login/logout",forceLoad: true);
+        Navigation.NavigateTo("/api/login/logout", forceLoad: true);
     }
 }

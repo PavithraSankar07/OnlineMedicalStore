@@ -63,19 +63,28 @@
         </EditForm>
     </div>
 }
-@if (!string.IsNullOrEmpty(Message))
+@if (ShowMessage)
 {
-    <div >
-        @Message
+    <div class="popup">
+      <h1> @Message</h1> 
+      <button @onclick="DisplayMessage">Ok</button>
     </div>
 }
 @code {
+
+public void DisplayMessage()
+{
+    ShowMessage=false;
+    Message="";
+    StateHasChanged();
+}
+    bool ShowMessage=false;
     public List<MedicineInfo> Medicines = new();
     public MedicineInfo SelectedMedicine;
     public bool ShowForm = false;
     public int PurchaseQuantity = 1;  
 
-    public string Message = "";
+    public string Message;
   
 
     dynamic CurrentUser;
@@ -113,23 +122,31 @@
         if (SelectedMedicine == null)
         {
             Message = "No medicine selected.";
+            ShowForm = false;
+            ShowMessage=true;
             return;
         }
 
         if (PurchaseQuantity <= 0)
         {
             Message = "alteast select one ";
+            ShowForm = false;
+            ShowMessage=true;
             return;
         }
 
         if (PurchaseQuantity > SelectedMedicine.MedicineCount)
         {
             Message = $"Only {SelectedMedicine.MedicineCount} available.";
+            ShowForm = false;
+            ShowMessage=true;
             return;
         }
         if (SelectedMedicine.ExpiryDate.Date < DateTime.Today)
         {
             Message = " medicine is expired.";
+            ShowForm = false;
+            ShowMessage=true;
             return;
         }
         var totalCost = SelectedMedicine.MedicinePrice * PurchaseQuantity;
@@ -137,12 +154,16 @@
         if (CurrentUser == null)
         {
             Message = "User not found";
+            ShowForm = false;
+            ShowMessage=true;
             return;
         }
 
         if (CurrentUser.WalletBalance < totalCost)
         {
             Message = "Insufficient balanxe";
+            ShowMessage=true;
+            ShowForm = false;
             return;
         }
 
@@ -167,7 +188,7 @@
         if (orderAdded)
         {
             Message = $"Purchase   {PurchaseQuantity} {SelectedMedicine.MedicineName}.";
-           
+           ShowMessage=true;
             ShowForm = false;
             Medicines = MedicineService.GetMedicine(); 
             Console.WriteLine("s");
@@ -175,9 +196,11 @@
         else
         {
             Message = $"floid";
-       
+       ShowMessage=true;
             SelectedMedicine.MedicineCount += PurchaseQuantity;
             CurrentUser.WalletBalance += totalCost;
         }
+        ShowForm=false;
+
     }
 }
